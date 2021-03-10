@@ -261,9 +261,6 @@ class InfosDePartie:
         with open(fichierSauvegarde, "w") as fichierSauvegarde:
             fichierSauvegarde.write(sauvegarde)
             
-    def scoreTour(self, tour:int):
-        
-            
     def importerSauvegarde(self, fenetre):
         """
         Méthode permettant d'importer une sauvegarde au format kan. Elle est 
@@ -1930,5 +1927,5 @@ class EntraineurIA:
         
             
 # ------------------------------Programme principal--------------------------- 
-#FenetreGlobale()
-EntraineurIA(1)
+FenetreGlobale()
+#EntraineurIA(1)
