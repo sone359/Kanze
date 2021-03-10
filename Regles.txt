@@ -1,0 +1,71 @@
+Règles du Kanzé
+
+Le Kanzé est un jeu de stratégie au tour par tour se jouant à deux joueurs et
+dont le but est de tuer le Représentant (pion rouge) du joueur adverse.
+Pour cela, chaque joueur dispose de troupes (pions noirs) qu'il peut déplacer
+de cases en cases de manière à les conquérir et à avancer sur le plateau.
+
+
+Déroulement d'un tour :
+
+A chaque tour, le joueur actif a le choix entre trois actions :
+
+- Déplacer des troupes
+	Pour déplacer des troupes, le joueur doit indiquer le nombre de troupes
+	qu'il souhaite déplacer, sélectionner par un clic droit la case de départ
+	et la case d'arrivée du déplacement et, si son Représentant est sur
+	la case de départ, s'il souhaite le déplacer avec les troupes.
+	Les troupes peuvent être déplacées sur une case adjacente appartenant 
+	au joueur adverse, ce qui donne lieu à une bataille (voir ci-dessous),
+	déplacées sur une case neutre reliée à la case de départ par des cases
+	appartenant au joueur, ou bien déplacées sur une case appartenant au 
+	joueur actif et reliée à la case de départ par des cases lui appartenant.
+
+- Recruter
+	Lorsqu'un joueur recrute, une troupe supplémentaire est ajoutée sur chacune
+	de ses cases comptant moins de sept troupes, nombre maximal de troupes qu'une
+	case peut acceuillir.
+	Mais attention, chaque joueur ne peut posséder au maximum que 49 troupes (sauf
+	cas spécial lié à l'influence et détaillé plus bas). Si un joueur n'a plus assez
+	de troupes disponibles pour recruter sur toutes ses cases, il sélectionner une
+	case où recruter pour chaque troupe qu'il lui reste de disponible.
+	
+- Passer son tour
+	Tout est dans le nom !
+	
+
+Possession d'une case :
+
+Un joueur possède un case lorsque celle-ci est occupée par son Représentant ou par
+une ou plusieurs troupes lui appartenant.
+Ainsi, pour conquérir une case neutre, il suffit de déplacer son Représentant et/ou
+des troupes sur cette case. Mais pour conquérir une case adverse, ce n'est pas aussi
+simple. Le joueur a alors deux choix :
+
+- Livrer bataille
+	Pour cela il doit déplacer des troupes sur une case adverse adjacente. On compare
+	alors le nombre de troupes présentes de chaque joueur et celui qui en possède le plus
+	est déclaré vainqueur. On soustrait alors le nombre de troupes de perdant à celui du
+	gagnant et le vainqueur possède la case. Si les deux joueurs possèdent autant de
+	troupes, elles sont toutes éliminées et la case redevient neutre.
+	A noter que si un Représentant est présent, il est considéré comme une troupe
+	supplémentaire et participe à la bataille, au risque d'être éliminé.
+	
+- Conquérir la case par influence
+	A la fin de chaque tour, on mesure l'influence. Chaque case appartenant à un joueur
+	mais où la majorité des cases adjacentes sont possédées par le joueur adverse changent
+	de propriétaire. Après cela, de nouvelles cases peuvent être dans cette situation et
+	changent donc à leur tour de propriétaire. On mesure l'influence jusqu'à ce que la
+	situation soit stable.
+	Les cases où sont présentes un Représentant ne sont pas concernées par l'influence.
+	
+A noter que si un joueur déplace toutes ses troupes et son Représentant hors d'une case,
+celle-ci redevient neutre.
+
+
+Options :
+
+Divers options sont disponibles, certaines sont activées par défaut, d'autre sont 
+désactivées. Les modifier peut changer l'expérience de jeu, mais il est à noter que 
+l'IA a été principalement entraînée avec les options par défaut et qu'elle sera 
+donc très peu performante si vous changez ces options.
