@@ -269,18 +269,19 @@ class InfosDePartie:
         differencesTours = [None, None]
         scoresTours = [None]
         for i in range (2, len(self)-1):
-            joueur = 'Joueur '+('1' if i%2 == 1 else '2')
-            adversaire = 'Joueur '+('2' if i%2 == 1 else '1')
-            differencesTours.append((self[i][('nombreCases', joueur)] - self[i-1][('nombreCases', joueur)], self[i][('nombreCases', adversaire)] - self[i-1][('nombreCases', adversaire)], self[i][('nombreTroupes', joueur)] - self[i-1][('nombreTroupes', joueur)], self[i][('nombreTroupes', adversaire)] - self[i-1][('nombreTroupes', adversaire)]))
+            differencesTours.append((self[i][('nombreCases', 'Joueur 1')] - self[i-1][('nombreCases', 'Joueur 1')], self[i][('nombreCases', 'Joueur 2')] - self[i-1][('nombreCases', 'Joueur 2')], self[i][('nombreTroupes', 'Joueur 1')] - self[i-1][('nombreTroupes', 'Joueur 1')], self[i][('nombreTroupes', 'Joueur 2')] - self[i-1][('nombreTroupes', 'Joueur 2')]))
+        print(differencesTours)
         for i in range (1, len(self)-1):
+            joueur = 'Joueur '+('1' if i%2 == 1 else '2')
             score = {"evolCasesJoueur":0.0, "evolCasesAdversaire":0.0, "evolTroupesJoueur":0.0, "evolTroupesAdversaire":0.0}
-            for j in range (1, 5 if len(differencesTours)-i > 4 else len(differencesTours)-i):
-                score["evolCasesJoueur"] += differencesTours[i+j][0]/j
-                score["evolCasesAdversaire"] += differencesTours[i+j][1]/j
-                score["evolTroupesJoueur"] += differencesTours[i+j][2]/j
-                score["evolTroupesAdversaire"] += differencesTours[i+j][3]/j
+            for j in range (1, 6 if len(differencesTours)-i > 5 else len(differencesTours)-i):
+                score["evolCasesJoueur"] += differencesTours[i+j][0 if joueur == 'Joueur 1' else 1]/j
+                score["evolCasesAdversaire"] += differencesTours[i+j][1 if joueur == 'Joueur 1' else 0]/j
+                score["evolTroupesJoueur"] += differencesTours[i+j][2 if joueur == 'Joueur 1' else 3]/j
+                score["evolTroupesAdversaire"] += differencesTours[i+j][3 if joueur == 'Joueur 1' else 2]/j
             scoresTours.append((score["evolCasesJoueur"]*100 + score["evolCasesAdversaire"]*100*(-1/4) + score["evolTroupesJoueur"]*100*(1/4) + score["evolTroupesAdversaire"]*100*(-1/8))//4)
         scoresTours.append(0.0)
+        print(scoresTours)
         return scoresTours
             
             
@@ -1953,4 +1954,4 @@ class EntraineurIA:
             
 # ------------------------------Programme principal--------------------------- 
 FenetreGlobale()
-#EntraineurIA(1)
+#EntraineurIA(5)
