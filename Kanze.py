@@ -62,6 +62,8 @@ class InfosDePartie:
                           # 1er tour (indice 1 de la liste)
                            {('nombreTroupes', 'Joueur 1'): 7, 
                             ('nombreTroupes', 'Joueur 2'): 7,
+                            ('nombreCases', 'Joueur 1') : 1,
+                            ('nombreCases', 'Joueur 2') : 1,
                             "action": None,
                             (1, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 0, 200, 50], 'Representant': True, 'CasesAdjacentes': [(2, 1), (2, 2)]}, 
                             (2, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [125, 50, 175, 100], 'Representant': False, 'CasesAdjacentes': [(1, 1), (2, 2), (3, 1), (3, 2)]}, 
@@ -240,10 +242,12 @@ class InfosDePartie:
             fichierSauvegarde = choixSauvegarde
         else:
             fichierSauvegarde = filedialog.asksaveasfilename(title="Nom et emplacement de la sauvegarde", initialdir=os.path.dirname(__file__)+"/Sauvegardes", initialfile=time.strftime("%d-%m-%Y_%H%M%S")+".kan", filetypes=[("Kanze", "*.kan"), ("All", "*")], defaultextension=".kan", parent=fenetre)
+        #Calcul des scores de chacun des tours
+        scores = self.calculScore()
         #Conversion des données de jeu au format kan
         sauvegarde = "/".join([cle + ";" + str(self[0][cle]) for cle in self[0].keys()]) + "\n" + str(len(self)-1)
         for i in range (1, len(self)):
-            sauvegarde = sauvegarde + "\n" + str(i) + "/" + str(self[i][('nombreTroupes', 'Joueur 1')]) + "/" + str(self[i][('nombreTroupes', 'Joueur 2')])
+            sauvegarde = sauvegarde + "\n" + str(i) + "/" + str(self[i][('nombreTroupes', 'Joueur 1')]) + "/" + str(self[i][('nombreTroupes', 'Joueur 2')]) + "/" + str(self[i][('nombreCases', 'Joueur 1')]) + "/" + str(self[i][('nombreCases', 'Joueur 2')]) + "/" + str(scores[i])
             if self[i]["action"] == None:
                 sauvegarde = sauvegarde + "/" + "0"
             elif type(self[i]["action"]) != list:
@@ -260,6 +264,26 @@ class InfosDePartie:
         #Ecriture des données converties dans le fichier choisi
         with open(fichierSauvegarde, "w") as fichierSauvegarde:
             fichierSauvegarde.write(sauvegarde)
+            
+    def calculScore(self):
+        differencesTours = [None, None]
+        scoresTours = [None]
+        for i in range (2, len(self)-1):
+            differencesTours.append((self[i][('nombreCases', 'Joueur 1')] - self[i-1][('nombreCases', 'Joueur 1')], self[i][('nombreCases', 'Joueur 2')] - self[i-1][('nombreCases', 'Joueur 2')], self[i][('nombreTroupes', 'Joueur 1')] - self[i-1][('nombreTroupes', 'Joueur 1')], self[i][('nombreTroupes', 'Joueur 2')] - self[i-1][('nombreTroupes', 'Joueur 2')]))
+        print(differencesTours)
+        for i in range (1, len(self)-1):
+            joueur = 'Joueur '+('1' if i%2 == 1 else '2')
+            score = {"evolCasesJoueur":0.0, "evolCasesAdversaire":0.0, "evolTroupesJoueur":0.0, "evolTroupesAdversaire":0.0}
+            for j in range (1, 6 if len(differencesTours)-i > 5 else len(differencesTours)-i):
+                score["evolCasesJoueur"] += differencesTours[i+j][0 if joueur == 'Joueur 1' else 1]/j
+                score["evolCasesAdversaire"] += differencesTours[i+j][1 if joueur == 'Joueur 1' else 0]/j
+                score["evolTroupesJoueur"] += differencesTours[i+j][2 if joueur == 'Joueur 1' else 3]/j
+                score["evolTroupesAdversaire"] += differencesTours[i+j][3 if joueur == 'Joueur 1' else 2]/j
+            scoresTours.append((score["evolCasesJoueur"]*100 + score["evolCasesAdversaire"]*100*(-1/4) + score["evolTroupesJoueur"]*100*(1/4) + score["evolTroupesAdversaire"]*100*(-1/8))//4)
+        scoresTours.append(0.0)
+        print(scoresTours)
+        return scoresTours
+            
             
     def importerSauvegarde(self, fenetre):
         """
@@ -293,22 +317,22 @@ class InfosDePartie:
             sauvegarde[0][i] = sauvegarde[0][i].split(";")
         for i in range (2, len(sauvegarde)):
             sauvegarde[i] = sauvegarde[i].split("/")
-            sauvegarde[i][3] = sauvegarde[i][3].split(";")
+            sauvegarde[i][6] = sauvegarde[i][6].split(";")
             # Conversion de l'action du tour
-            if len(sauvegarde[i][3]) == 1:
-                if sauvegarde[i][3][0] == "0":
-                    sauvegarde[i][3] = None
+            if len(sauvegarde[i][6]) == 1:
+                if sauvegarde[i][6][0] == "0":
+                    sauvegarde[i][6] = None
                 else:
-                    sauvegarde[i][3] = sauvegarde[i][3][0]
-            elif sauvegarde[i][3][0] == "recruterCase":
-                for k in range (1, len(sauvegarde[i][3])):
-                    sauvegarde[i][3][k] = (int(sauvegarde[i][3][k].split(",")[0]), int(sauvegarde[i][3][k].split(",")[1]))
+                    sauvegarde[i][6] = sauvegarde[i][6][0]
+            elif sauvegarde[i][6][0] == "recruterCase":
+                for k in range (1, len(sauvegarde[i][6])):
+                    sauvegarde[i][6][k] = (int(sauvegarde[i][6][k].split(",")[0]), int(sauvegarde[i][6][k].split(",")[1]))
             else:
-                sauvegarde[i][3][1] = (int(sauvegarde[i][3][1].split(",")[0]), int(sauvegarde[i][3][1].split(",")[1]))
-                sauvegarde[i][3][2] = (int(sauvegarde[i][3][2].split(",")[0]), int(sauvegarde[i][3][2].split(",")[1]))
-                sauvegarde[i][3][3] = int(sauvegarde[i][3][3])
-                sauvegarde[i][3][4] = sauvegarde[i][3][4]=="True"
-            for j in range (4, len(sauvegarde[i])):
+                sauvegarde[i][6][1] = (int(sauvegarde[i][6][1].split(",")[0]), int(sauvegarde[i][6][1].split(",")[1]))
+                sauvegarde[i][6][2] = (int(sauvegarde[i][6][2].split(",")[0]), int(sauvegarde[i][6][2].split(",")[1]))
+                sauvegarde[i][6][3] = int(sauvegarde[i][6][3])
+                sauvegarde[i][6][4] = sauvegarde[i][6][4]=="True"
+            for j in range (7, len(sauvegarde[i])):
                 sauvegarde[i][j] = sauvegarde[i][j].split(";")
                 sauvegarde[i][j][0] = sauvegarde[i][j][0].split(",")
         #Réinitialisation de _infos et ajout de l'information de fin de partie et des options
@@ -321,11 +345,13 @@ class InfosDePartie:
         #Ajout dans _infos des données importées, qui remplacent les infos déjà présentes
         for tour in sauvegarde[2:]:
             casesFormatees = {}
-            for case in tour[4:]:
+            for case in tour[7:]:
                 casesFormatees[(int(case[0][0]), int(case[0][1]))] = {"Proprietaire":case[1], "Troupes":int(case[2]), "Representant":case[3]=="True"}
             self._infos.append({('nombreTroupes', 'Joueur 1'): int(tour[1]), 
                                 ('nombreTroupes', 'Joueur 2'): int(tour[2]),
-                                "action": tour[3],
+                                ('nombreCases', 'Joueur 1'): int(tour[3]), 
+                                ('nombreCases', 'Joueur 2'): int(tour[4]),
+                                "action": tour[6],
                                 (1, 1): {'Proprietaire': casesFormatees[(1, 1)]['Proprietaire'], 'Troupes': casesFormatees[(1, 1)]['Troupes'], 'Coordonnees': [150, 0, 200, 50], 'Representant': casesFormatees[(1, 1)]['Representant'], 'CasesAdjacentes': [(2, 1), (2, 2)]}, 
                                 (2, 1): {'Proprietaire': casesFormatees[(2, 1)]['Proprietaire'], 'Troupes': casesFormatees[(2, 1)]['Troupes'], 'Coordonnees': [125, 50, 175, 100], 'Representant': casesFormatees[(2, 1)]['Representant'], 'CasesAdjacentes': [(1, 1), (2, 2), (3, 1), (3, 2)]}, 
                                 (2, 2): {'Proprietaire': casesFormatees[(2, 2)]['Proprietaire'], 'Troupes': casesFormatees[(2, 2)]['Troupes'], 'Coordonnees': [175, 50, 225, 100], 'Representant': casesFormatees[(2, 2)]['Representant'], 'CasesAdjacentes': [(1, 1), (2, 1), (3, 2), (3, 3)]}, 
@@ -1206,7 +1232,7 @@ class FenetreDeJeu:
         None.
 
         """
-        #Le tour est incrémenté de manière à faire les modifications de fin de tour sur le tour suivant et depouvoir ainsi revenir en arrière jusqu'au tour 1. Sans cette mesure, le tour vierge du début de partie n'est pas enregistré.
+        #Le tour est incrémenté de manière à faire les modifications de fin de tour sur le tour suivant et de pouvoir ainsi revenir en arrière jusqu'au tour 1. Sans cette mesure, le tour vierge du début de partie n'est pas enregistré.
         self.infos.tour += 1
         representantJ1 = False
         representantJ2 = False
@@ -1224,15 +1250,19 @@ class FenetreDeJeu:
         self.infos.influence()
         #Ajout aux infos de jeu du prochain tour, pour l'instant identique à l'actuel
         self.infos.ajoutTour()
-        #Compte des troupes de chaque joueur
+        #Compte des troupes et des cases de chaque joueur
         self.infos[self.infos.tour]["nombreTroupes", "Joueur 1"] = 0
+        self.infos[self.infos.tour]["nombreCases", "Joueur 1"] = 0
         self.infos[self.infos.tour]["nombreTroupes", "Joueur 2"] = 0
+        self.infos[self.infos.tour]["nombreCases", "Joueur 2"] = 0
         for case in self.infos[self.infos.tour].keys():
             if type(self.infos[self.infos.tour][case]) == dict and type(case) == tuple:
                 if self.infos[self.infos.tour][case]["Proprietaire"] == "Joueur 1":
                     self.infos[self.infos.tour]["nombreTroupes", "Joueur 1"] += self.infos[self.infos.tour][case]["Troupes"]
+                    self.infos[self.infos.tour]["nombreCases", "Joueur 1"] += 1
                 elif self.infos[self.infos.tour][case]["Proprietaire"] == "Joueur 2":
                     self.infos[self.infos.tour]["nombreTroupes", "Joueur 2"] += self.infos[self.infos.tour][case]["Troupes"]
+                    self.infos[self.infos.tour]["nombreCases", "Joueur 2"] += 1
         #Mise à jour des indications visuelles
         self.formationCase()
         self._indicationTour.set("Tour {}".format(str(self.infos.tour)))
@@ -1276,7 +1306,7 @@ class FenetreDeJeu:
             self.texteJoueur.config(text="Partie terminée, victoire du Joueur 1 !\n")
             self.infos[0]["indicationPartie"] = 1
             self.infos.sauvegarder(self.fenetre, os.path.dirname(__file__)+"/Sauvegardes"+"/Auto/"+time.strftime("%d-%m-%Y_%H%M%S")+".kan")
-        #Si la partie n'est pas terminée et que c'est au tour d'une IA de jouer, lancement celle-ci joue et une procédure de fin de tour est à nouveau appelée
+        #Si la partie n'est pas terminée et que c'est au tour d'une IA de jouer, celle-ci joue et une procédure de fin de tour est à nouveau appelée
         else:
             if self._joueur == "Joueur 1" and self._etatJoueur1 == "IA":
                 self._IAJoueur1.choixAction()
@@ -1374,48 +1404,34 @@ class IA:
         """
         self._joueur = joueur
         self._infos = infos
-        self._partiesCompatibles = self.selectionParties(chemin=os.path.dirname(__file__)+"/Sauvegardes", gagnantsAcceptes=[joueur[7], "3"])
+        self._partiesCompatibles = self.evaluationParties(chemin=os.path.dirname(__file__)+"/Sauvegardes")
         
-    def selectionParties(self, chemin:str, gagnantsAcceptes:list, toursMin:int=0, toursMax:int=0, typeConditions:str="or"):
+    def evaluationParties(self, chemin:str):
         """
         Vérifie si le chemin donné est celui d'un fichier ou non. Si c'est le 
-        cas, vérifie si c'est une sauvegarde valide et compatible avec l'IA, 
-        c'est à dire dont les paramètres sont les mêmes que ceux de la partie 
-        en cours, dont l'indication de fin de partie est acceptée et/ou 
-        (selon le type de conditions) dont le nombre de tours est situé dans 
-        l'intervalle indiqué. Si le chemin pointe sur un dossier, exécute de 
-        façon récursive cette méthode sur tous les fichiers et dossiers du 
-        dossier.
+        cas, vérifie si c'est une sauvegarde valide, c'est à dire dont les 
+        paramètres sont les mêmes que ceux de la partie en cours, et lui 
+        attribue un score en fonction de l'indication de fin de partie et du 
+        nombre de tours. Si le chemin pointe sur un dossier, exécute de façon 
+        récursive cette méthode sur tous les fichiers et dossiers du dossier.
 
         Parameters
         ----------
         chemin : str
-            Chemin qui doit être testé.
-        gagnantsAcceptes : list
-            Liste des fins de partie acceptées. Les valeurs présentes peuvent
-            être "0" pour une partie en cours, "1" pour une partie gagnée par 
-            le joueur 1, "2" pour une partie gagnée par le joueur 2 ou "3" 
-            pour un match nul.
-        toursMin : int, optional
-            Nombre de tours manimum exigé. The default is 0.
-        toursMax : int, optional
-            Nombre de tours maximum exigé. The default is 0.
-        typeConditions : str, optional
-            Indique si la sauvegarde testée soit à la fois avoir un nombre de 
-            tours et une fin de partie compatibles ou seulement l'un des deux.
-            The default is "or".
-
+            Chemin qui doit être testé et évalué.
+            
         Returns
         -------
-        fichiersCompatibles : TYPE
-            DESCRIPTION.
+        fichiersCompatibles : list
+            Liste de tuples représentant le chemin d'une sauvegarde compatible
+            et le score qui lui est associé.
 
         """
         fichiersCompatibles = []
         #Il est vérifie que le chemin pointe sur un fichier
         if os.path.isfile(chemin) == False:
             for composant in os.listdir(chemin):
-                fichiersCompatibles += self.selectionParties(chemin+"/"+composant, gagnantsAcceptes, toursMin, toursMax, typeConditions)
+                fichiersCompatibles += self.evaluationParties(chemin+"/"+composant)
         elif os.path.splitext(chemin)[1] == ".kan":
             with open(chemin, "r") as fichierTeste:
                 elementsTeste = fichierTeste.read().split("\n")[:2]
@@ -1427,17 +1443,20 @@ class IA:
                     if cle != "indicationPartie" and elementsTeste[0][cle] != self._infos[0][cle]:
                         parametresIdentiques = False
                         break
-                if parametresIdentiques == True and typeConditions == "and":
-                    if elementsTeste[0]["indicationPartie"] in gagnantsAcceptes and int(elementsTeste[1]) >= toursMin and int(elementsTeste[1]) <= toursMax:
-                        fichiersCompatibles.append(chemin)
-                elif parametresIdentiques == True and typeConditions == "or":
-                    if elementsTeste[0]["indicationPartie"] in gagnantsAcceptes or int(elementsTeste[1]) >= toursMin and int(elementsTeste[1]) <= toursMax:
-                        fichiersCompatibles.append(chemin)
+                if parametresIdentiques == True:
+                   nombreTours = int(elementsTeste[1])
+                   score = 1 - nombreTours//1000/5
+                   nombreTours -= nombreTours//1000
+                   while nombreTours > 300 and score >= 0.1:
+                       score -= 0.1
+                       nombreTours -= 100
+                   score = (score + {"0":0.5, "1":1 if self._joueur == "Joueur 1" else 0.1, "2":1 if self._joueur == "Joueur 2" else 0.1, "3":0.6}[elementsTeste[0]["indicationPartie"]]*2) / 3
+                   fichiersCompatibles.append((chemin, score)) 
             except ValueError:
                 pass
         return fichiersCompatibles
     
-    def selectionTour(self, compatibilite:int=100):
+    def triTour(self, compatibiliteMin:int=0.5):
         """
         Sélectionne les tours ressemblant suffisamment au tour actuel et 
         renvoie une liste des actions qui y ont été jouées, triée du tour le 
@@ -1460,46 +1479,48 @@ class IA:
         """
         actionsCompatibles = []
         for fichier in self._partiesCompatibles:
-            with open(fichier, "r") as fichierOuvert:
+            with open(fichier[0], "r") as fichierOuvert:
                 #Création d'une liste comportant tous les tours de la partie
                 partie = fichierOuvert.read().split("\n")[2:-2]
             #Attibution d'un score au tour dépendant de sa ressemblance avec l'état de la partie actuelle
             for i in range(0, len(partie)):
-                score = 200
-                partie[i] = partie[i].split("/")[3:]
-                j = 1
+                scoreCompatibilite = 1
+                partie[i] = partie[i].split("/")[5:]
+                j = 2
                 #Vérification de la correspondance pour toutes les cases du tour
-                while j in range(1, len(partie[i])) and score >= compatibilite:
+                while j in range(2, len(partie[i])) and scoreCompatibilite >= compatibiliteMin:
                     partie[i][j] = partie[i][j].split(";")
                     partie[i][j][0] = (int(partie[i][j][0].split(",")[0]), int(partie[i][j][0].split(",")[1]))
                     #Vérification du propriétaire
                     if partie[i][j][1] != self._infos[self._infos.tour][partie[i][j][0]]["Proprietaire"]:
-                        score -= 18
+                        scoreCompatibilite -= 0.1
                     else:
                         #Vérification de la présence du Représentant si la case appartient bien au même propriétaire, sinon cette information n'est pas représentative
                         if (partie[i][j][3] == "True") != self._infos[self._infos.tour][partie[i][j][0]]["Representant"]:
-                            score -= 4
+                            scoreCompatibilite -= 0.025
                         #Vérification du nombre de troupes si la case appartient bien au même propriétaire, sinon cette information n'est pas représentative
                         if int(partie[i][j][2]) < self._infos[self._infos.tour][partie[i][j][0]]["Troupes"]:
                             for k in range (0, self._infos[self._infos.tour][partie[i][j][0]]["Troupes"]-int(partie[i][j][2])):
-                                score -= 1
+                                scoreCompatibilite -= 0.01
                         elif int(partie[i][j][2]) > self._infos[self._infos.tour][partie[i][j][0]]["Troupes"]:
                             for k in range (0, int(partie[i][j][2])-self._infos[self._infos.tour][partie[i][j][0]]["Troupes"]):
-                                score -= 1
+                                scoreCompatibilite -= 0.01
                     j+=1
-                #Si le score attribué au tour est supérieur au minimum requis, l'action du tour est convertie et ajoutée à la liste des actions possibles
-                if score >= compatibilite:
+                #Si le score attribué au tour est supérieur au minimum requis, le score total du tour est calculé 
+                #à partir du score de la partie, du score du tour et du score de compatibilité et l'action du tour est convertie et ajoutée à la liste des actions possibles
+                if scoreCompatibilite >= compatibiliteMin:
                     # Conversion de l'action du tour
-                    partie[i][0] = partie[i][0].split(";")
-                    if partie[i][0][0] == "recruterCase":
-                        for k in range (1, len(partie[i][0])):
-                            partie[i][0][k] = (int(partie[i][0][k].split(",")[0]), int(partie[i][0][k].split(",")[1]))
-                    elif partie[i][0][0] == "deplacer":
-                        partie[i][0][1] = (int(partie[i][0][1].split(",")[0]), int(partie[i][0][1].split(",")[1]))
-                        partie[i][0][2] = (int(partie[i][0][2].split(",")[0]), int(partie[i][0][2].split(",")[1]))
-                        partie[i][0][3] = int(partie[i][0][3])
-                        partie[i][0][4] = partie[i][0][4]=="True"
-                    actionsCompatibles.append((score, partie[i][0]))
+                    partie[i][1] = partie[i][1].split(";")
+                    if partie[i][1][0] == "recruterCase":
+                        for k in range (1, len(partie[i][1])):
+                            partie[i][1][k] = (int(partie[i][1][k].split(",")[0]), int(partie[i][1][k].split(",")[1]))
+                    elif partie[i][1][0] == "deplacer":
+                        partie[i][1][1] = (int(partie[i][1][1].split(",")[0]), int(partie[i][1][1].split(",")[1]))
+                        partie[i][1][2] = (int(partie[i][1][2].split(",")[0]), int(partie[i][1][2].split(",")[1]))
+                        partie[i][1][3] = int(partie[i][1][3])
+                        partie[i][1][4] = partie[i][1][4]=="True"
+                    #Calcul du score total et ajout de l'action du tour pondérée dans les actions compatibles avec le tour actuel
+                    actionsCompatibles.append((float(partie[i][0])*fichier[1]*scoreCompatibilite, partie[i][1]))
         actionsCompatibles.sort(reverse=True)
         return actionsCompatibles
     
@@ -1645,7 +1666,7 @@ class IA:
         """
         erreur = ""
         if self._infos.tour >= tourMinChoisi and random.randint(0, 100) != 0:
-            actionsCompatibles = self.selectionTour()
+            actionsCompatibles = self.triTour()
             while erreur != None and actionsCompatibles != []:
                 if actionsCompatibles[0][1][0] == "deplacer":
                     erreur = self._infos.deplacement(actionsCompatibles[0][1][1], actionsCompatibles[0][1][2], actionsCompatibles[0][1][3], actionsCompatibles[0][1][4])
@@ -1674,7 +1695,7 @@ class IAAnalysee(IA):
     """
     Classe 
     """
-    def selectionTour(self, compatibilite:int=100):
+    def triTour(self, compatibiliteMin:int=100):
         """
         Sélectionne les tours ressemblant suffisamment au tour actuel et 
         renvoie une liste des actions qui y ont été jouées, triée du tour le 
@@ -1698,46 +1719,47 @@ class IAAnalysee(IA):
         """
         actionsCompatibles = []
         for fichier in self._partiesCompatibles:
-            with open(fichier, "r") as fichierOuvert:
+            with open(fichier[0], "r") as fichierOuvert:
                 #Création d'une liste comportant tous les tours de la partie
                 partie = fichierOuvert.read().split("\n")[2:-2]
             #Attibution d'un score au tour dépendant de sa ressemblance avec l'état de la partie actuelle
             for i in range(0, len(partie)):
-                score = 200
-                partie[i] = partie[i].split("/")[3:]
-                j = 1
+                scoreCompatibilite = 1
+                tourTeste = partie[i].split("/")[0]
+                partie[i] = partie[i].split("/")[5:]
+                j = 2
                 #Vérification de la correspondance pour toutes les cases du tour
-                while j in range(1, len(partie[i])) and score >= compatibilite:
+                while j in range(2, len(partie[i])) and scoreCompatibilite >= compatibiliteMin:
                     partie[i][j] = partie[i][j].split(";")
                     partie[i][j][0] = (int(partie[i][j][0].split(",")[0]), int(partie[i][j][0].split(",")[1]))
                     #Vérification du propriétaire
                     if partie[i][j][1] != self._infos[self._infos.tour][partie[i][j][0]]["Proprietaire"]:
-                        score -= 18
+                        scoreCompatibilite -= 0.1
                     else:
                         #Vérification de la présence du Représentant si la case appartient bien au même propriétaire, sinon cette information n'est pas représentative
                         if (partie[i][j][3] == "True") != self._infos[self._infos.tour][partie[i][j][0]]["Representant"]:
-                            score -= 4
+                            scoreCompatibilite -= 0.025
                         #Vérification du nombre de troupes si la case appartient bien au même propriétaire, sinon cette information n'est pas représentative
                         if int(partie[i][j][2]) < self._infos[self._infos.tour][partie[i][j][0]]["Troupes"]:
                             for k in range (0, self._infos[self._infos.tour][partie[i][j][0]]["Troupes"]-int(partie[i][j][2])):
-                                score -= 1
+                                scoreCompatibilite -= 0.01
                         elif int(partie[i][j][2]) > self._infos[self._infos.tour][partie[i][j][0]]["Troupes"]:
                             for k in range (0, int(partie[i][j][2])-self._infos[self._infos.tour][partie[i][j][0]]["Troupes"]):
-                                score -= 1
+                                scoreCompatibilite -= 0.01
                     j+=1
                 #Si le score attribué au tour est supérieur au minimum requis, l'action du tour est convertie et ajoutée à la liste des actions possibles
-                if score >= compatibilite:
+                if scoreCompatibilite >= compatibiliteMin:
                     # Conversion de l'action du tour
-                    partie[i][0] = partie[i][0].split(";")
-                    if partie[i][0][0] == "recruterCase":
-                        for k in range (1, len(partie[i][0])):
-                            partie[i][0][k] = (int(partie[i][0][k].split(",")[0]), int(partie[i][0][k].split(",")[1]))
-                    elif partie[i][0][0] == "deplacer":
-                        partie[i][0][1] = (int(partie[i][0][1].split(",")[0]), int(partie[i][0][1].split(",")[1]))
-                        partie[i][0][2] = (int(partie[i][0][2].split(",")[0]), int(partie[i][0][2].split(",")[1]))
-                        partie[i][0][3] = int(partie[i][0][3])
-                        partie[i][0][4] = partie[i][0][4]=="True"
-                    actionsCompatibles.append((score, partie[i][0], fichier))
+                    partie[i][1] = partie[i][1].split(";")
+                    if partie[i][1][0] == "recruterCase":
+                        for k in range (1, len(partie[i][1])):
+                            partie[i][1][k] = (int(partie[i][1][k].split(",")[0]), int(partie[i][1][k].split(",")[1]))
+                    elif partie[i][1][0] == "deplacer":
+                        partie[i][1][1] = (int(partie[i][1][1].split(",")[0]), int(partie[i][1][1].split(",")[1]))
+                        partie[i][1][2] = (int(partie[i][1][2].split(",")[0]), int(partie[i][1][2].split(",")[1]))
+                        partie[i][1][3] = int(partie[i][1][3])
+                        partie[i][1][4] = partie[i][1][4]=="True"
+                    actionsCompatibles.append((float(partie[i][0])*fichier[1]*scoreCompatibilite, partie[i][1], fichier[0], tourTeste))
         actionsCompatibles.sort(reverse=True)
         return actionsCompatibles
     
@@ -1765,7 +1787,7 @@ class IAAnalysee(IA):
         """
         erreur = ""
         if self._infos.tour >= tourMinChoisi and random.randint(0, 100) != 0:
-            actionsCompatibles = self.selectionTour()
+            actionsCompatibles = self.triTour()
             while erreur != None and actionsCompatibles != []:
                 if actionsCompatibles[0][1][0] == "deplacer":
                     erreur = self._infos.deplacement(actionsCompatibles[0][1][1], actionsCompatibles[0][1][2], actionsCompatibles[0][1][3], actionsCompatibles[0][1][4])
@@ -1869,15 +1891,19 @@ class EntraineurIA:
         self.infos.influence()
         #Ajout aux infos de jeu du prochain tour, pour l'instant identique à l'actuel
         self.infos.ajoutTour()
-        #Compte des troupes de chaque joueur
+        #Compte des troupes et des cases de chaque joueur
         self.infos[self.infos.tour]["nombreTroupes", "Joueur 1"] = 0
+        self.infos[self.infos.tour]["nombreCases", "Joueur 1"] = 0
         self.infos[self.infos.tour]["nombreTroupes", "Joueur 2"] = 0
+        self.infos[self.infos.tour]["nombreCases", "Joueur 2"] = 0
         for case in self.infos[self.infos.tour].keys():
             if type(self.infos[self.infos.tour][case]) == dict and type(case) == tuple:
                 if self.infos[self.infos.tour][case]["Proprietaire"] == "Joueur 1":
                     self.infos[self.infos.tour]["nombreTroupes", "Joueur 1"] += self.infos[self.infos.tour][case]["Troupes"]
+                    self.infos[self.infos.tour]["nombreCases", "Joueur 1"] += 1
                 elif self.infos[self.infos.tour][case]["Proprietaire"] == "Joueur 2":
                     self.infos[self.infos.tour]["nombreTroupes", "Joueur 2"] += self.infos[self.infos.tour][case]["Troupes"]
+                    self.infos[self.infos.tour]["nombreCases", "Joueur 2"] += 1
         #Vérification du joueur actif à partir du numéro du tour
         if self.infos.tour%2 == 0:
             self._joueur = "Joueur 2"
@@ -1896,7 +1922,7 @@ class EntraineurIA:
             self.infos[0]["indicationPartie"] = 1
             self.infos.sauvegarder(choixSauvegarde=os.path.dirname(__file__)+"/Sauvegardes"+"/Auto/"+time.strftime("%d-%m-%Y_%H%M%S")+".kan")
             self.sauvegarderAnalyse(choixSauvegarde=os.path.dirname(__file__)+"/AnalysesIA/"+time.strftime("%d-%m-%Y_%H%M%S")+".akan")
-        #Si la partie n'est pas terminée et que c'est au tour d'une IA de jouer, lancement celle-ci joue et une procédure de fin de tour est à nouveau appelée
+        #Si la partie n'est pas terminée et que c'est au tour d'une IA de jouer, celle-ci joue et une procédure de fin de tour est à nouveau appelée
         else:
             if self._joueur == "Joueur 1":
                 self._IAJoueur1.choixAction()
@@ -1906,7 +1932,7 @@ class EntraineurIA:
                 self.finDuTour()
         
     def sauvegarderAnalyse(self, choixSauvegarde):
-        #Conversion des données de jeu au format kan
+        #Conversion des données de jeu au format akan
         sauvegarde = "/".join([cle + ";" + str(self.infos[0][cle]) for cle in self.infos[0].keys()]) + "\n" + str(len(self.infos)-1)
         for i in range (1, len(self.infos.analyse)):
             sauvegarde = sauvegarde + "\n" + str(i)
@@ -1920,7 +1946,7 @@ class EntraineurIA:
                     sauvegarde = sauvegarde + ";" + str(list(caseRecrutement)[0]) + "," + str(list(caseRecrutement)[1])
             else:
                 sauvegarde = sauvegarde + "/" + self.infos.analyse[i][0][0] + ";" + str(list(self.infos.analyse[i][0][1])[0]) + "," + str(list(self.infos.analyse[i][0][1])[1]) + ";" + str(list(self.infos.analyse[i][0][2])[0]) + "," + str(list(self.infos.analyse[i][0][2])[1]) + ";" + str(self.infos.analyse[i][0][3]) + ";" + str(self.infos.analyse[i][0][4])
-            sauvegarde = sauvegarde + "/" + self.infos.analyse[i][1] + ("/" + self.infos.analyse[i][2] if len(self.infos.analyse[i]) >= 3 else "")
+            sauvegarde = sauvegarde + "/" + self.infos.analyse[i][1] + ("/" + self.infos.analyse[i][2] + self.infos.analyse[i][3] if len(self.infos.analyse[i]) >= 3 else "")
         #Ecriture des données converties dans le fichier choisi
         with open(choixSauvegarde, "w") as fichierSauvegarde:
             fichierSauvegarde.write(sauvegarde)
@@ -1928,4 +1954,4 @@ class EntraineurIA:
             
 # ------------------------------Programme principal--------------------------- 
 FenetreGlobale()
-#EntraineurIA(1)
+#EntraineurIA(5)
