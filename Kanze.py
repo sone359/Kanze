@@ -444,7 +444,7 @@ class InfosDePartie:
         tour actuel dans le but de réinitialiser les coups joués si 
         l'utilisateur revient en arrière et décide de changer le coup joué.
         
-        Amélioration possible : demander à l'utilisateur si il est sur de 
+        Amélioration possible : demander à l'utilisateur s'il est sur de 
         vouloir supprimer les tours suivants. Ou proposer dans ce cas de 
         sauvegarder la partie voir créer un système de gestion de branche 
         possibles de la partie.
@@ -1569,35 +1569,15 @@ class IA:
             #ou qu'un recrutement ait été effectué sur toutes les cases où c'était possible
             if self._infos[self._infos.tour][('nombreTroupes', self._joueur)] + len(casesJoueur) > self._infos[0]["nombreDeTroupesMax"]:
                 random.shuffle(casesJoueur)
-            self._infos[self._infos.tour]["action"] = ["recruterCase"]
-            i = 0
-            while i in range (0, self._infos[0]["nombreDeTroupesMax"]-self._infos[self._infos.tour][('nombreTroupes', self._joueur)]) and i < len(casesJoueur):
-                self._infos.recrutementALaCase(self._joueur, casesJoueur[i])
-                i += 1
-        else:
-            self._infos.passerTour()
-            
-    def compatibiliteCaseArriveeOrigine(self, caseDepart, nombreTroupes, representant, premiere, adjacente, gagne, casesVisitees=[]):
-        casesCompatibles = []
-        if (self._infos.tour, caseDepart, adjacente, gagne) not in casesVisitees and (self._infos.tour, caseDepart, True, gagne) not in casesVisitees:            
-            casesVisitees.append((self._infos.tour, caseDepart, adjacente, gagne))
-            if premiere == True:
-                for case in self._infos[self._infos.tour][caseDepart]["CasesAdjacentes"]:
-                    casesCompatibles += self.compatibiliteCaseArrivee(case, nombreTroupes, representant, False, True, gagne, casesVisitees)
-            elif self._infos[self._infos.tour][caseDepart]["Proprietaire"] == self._joueur:
-                if self._infos[self._infos.tour][caseDepart]["Troupes"] + nombreTroupes <= 7:
-                    casesCompatibles.append(caseDepart)
-                for case in self._infos[self._infos.tour][caseDepart]["CasesAdjacentes"]:
-                    casesCompatibles += self.compatibiliteCaseArrivee(case, nombreTroupes, representant, False, False, gagne, casesVisitees)
-            elif adjacente == True:
-                if self._infos[self._infos.tour][caseDepart]["Proprietaire"] == "Neutre":
-                    casesCompatibles.append(caseDepart)
-                else:
-                    if gagne == False:
-                        casesCompatibles.append(caseDepart)
-                    elif nombreTroupes + (1 if representant == True else 0) > self._infos[self._infos.tour][caseDepart]["Troupes"] + (1 if self._infos[self._infos.tour][caseDepart]["Representant"] == True else 0):
-                        casesCompatibles.append(caseDepart)
-        return casesCompatibles
+                self._infos[self._infos.tour]["action"] = ["recruterCase"]
+                i = 0
+                while i in range (0, self._infos[0]["nombreDeTroupesMax"]-self._infos[self._infos.tour][('nombreTroupes', self._joueur)]) and i < len(casesJoueur):
+                    self._infos.recrutementALaCase(self._joueur, casesJoueur[i])
+                    i += 1
+            else:
+                self._infos[self._infos.tour]["action"] = ["recruter"]
+                self._infos.recrutement()
+
     
     def compatibiliteCaseArrivee(self, caseDepart:tuple):
         """
@@ -1958,8 +1938,11 @@ class EntraineurIA:
         #Ecriture des données converties dans le fichier choisi
         with open(choixSauvegarde, "w") as fichierSauvegarde:
             fichierSauvegarde.write(sauvegarde)
+            
+
         
             
 # ------------------------------Programme principal--------------------------- 
-FenetreGlobale()
-#EntraineurIA(20)
+if __name__ == "__main__":
+    FenetreGlobale()
+    #EntraineurIA(5)
