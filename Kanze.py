@@ -257,6 +257,7 @@ class InfosDePartie:
                 for caseRecrutement in self[i]["action"][1:]:
                     sauvegarde = sauvegarde + ";" + str(list(caseRecrutement)[0]) + "," + str(list(caseRecrutement)[1])
             else:
+                print(self._infos[i], "\n\n")
                 sauvegarde = sauvegarde + "/" + self[i]["action"][0] + ";" + str(list(self[i]["action"][1])[0]) + "," + str(list(self[i]["action"][1])[1]) + ";" + str(list(self[i]["action"][2])[0]) + "," + str(list(self[i]["action"][2])[1]) + ";" + str(self[i]["action"][3]) + ";" + str(self[i]["action"][4])
             for case in self[i]:
                 if type(self[i][case]) == dict:
@@ -1575,7 +1576,7 @@ class IA:
                     self._infos.recrutementALaCase(self._joueur, casesJoueur[i])
                     i += 1
             else:
-                self._infos[self._infos.tour]["action"] = ["recruter"]
+                self._infos[self._infos.tour]["action"] = "recruter"
                 self._infos.recrutement()
         else:
             self._infos.passerTour()
