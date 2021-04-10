@@ -257,7 +257,6 @@ class InfosDePartie:
                 for caseRecrutement in self[i]["action"][1:]:
                     sauvegarde = sauvegarde + ";" + str(list(caseRecrutement)[0]) + "," + str(list(caseRecrutement)[1])
             else:
-                print(self._infos[i], "\n\n")
                 sauvegarde = sauvegarde + "/" + self[i]["action"][0] + ";" + str(list(self[i]["action"][1])[0]) + "," + str(list(self[i]["action"][1])[1]) + ";" + str(list(self[i]["action"][2])[0]) + "," + str(list(self[i]["action"][2])[1]) + ";" + str(self[i]["action"][3]) + ";" + str(self[i]["action"][4])
             for case in self[i]:
                 if type(self[i][case]) == dict:
@@ -1947,4 +1946,4 @@ class EntraineurIA:
 # ------------------------------Programme principal---------------------------
 if __name__ == "__main__":
     #FenetreGlobale()
-    EntraineurIA(1)
+    EntraineurIA(3)
