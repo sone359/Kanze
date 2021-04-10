@@ -1,0 +1,75 @@
+indicationPartie;2/nombreDeTroupesMax;49/casesNeutresNonAdjacentes;True/casesAdversesNonAdjacentes;False
+75
+1/deplacer;13,1;12,1;5;False/Aleatoire
+2/deplacer;1,1;2,1;6;False/Aleatoire
+3/deplacer;13,1;12,2;1;True/Aleatoire
+4/deplacer;1,1;2,2;1;False/Aleatoire
+5/recruterCase;12,1;12,2;13,1/Aleatoire
+6/deplacer;1,1;2,2;0;False/Aleatoire
+7/deplacer;12,2;11,2;2;True/Aleatoire
+8/deplacer;1,1;3,1;0;False/Aleatoire
+9/deplacer;13,1;11,3;2;False/Aleatoire
+10/deplacer;2,2;3,3;1;False/Recherche/16.119999999999997/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/03-04-2021_160005.kan/16
+11/deplacer;11,2;12,2;2;True/Recherche/18.372666666666664/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/03-04-2021_161538.kan/15
+12/deplacer;3,3;4,3;1;False/Aleatoire
+13/deplacer;12,1;12,2;2;False/Aleatoire
+14/deplacer;2,1;3,1;1;False/Aleatoire
+15/deplacer;12,2;11,3;1;True/Recherche/1.6380000000000001/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/27-03-2021_002634.kan/13
+16/deplacer;2,1;2,2;3;False/Recherche/9.727999999999998/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/03-04-2021_211540.kan/10
+17/deplacer;12,2;10,4;2;False/Recherche/17.98/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/27-03-2021_123022.kan/17
+18/deplacer;2,2;3,3;2;False/Recherche/16.266666666666666/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/04-04-2021_175948.kan/14
+19/recruterCase;10,4;11,3;12,1;12,2/Recherche/11.786666666666664/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/27-03-2021_132949.kan/21
+20/recruterCase;1,1;2,1/Recherche/17.158333333333335/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/04-04-2021_175948.kan/16
+21/deplacer;12,2;10,4;2;False/Recherche/18.279666666666667/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/27-03-2021_123022.kan/17
+22/recruterCase;1,1;2,1;2,2;3,1;3,3;4,3/Recherche/22.0/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/04-04-2021_175948.kan/20
+23/deplacer;10,4;9,4;2;False/Recherche/4.48/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/04-04-2021_175948.kan/19
+24/recruterCase;1,1;2,1;2,2;3,1;3,3;4,3/Recherche/26.666666666666668/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/04-04-2021_175948.kan/20
+25/recruterCase;9,4;11,3/Recherche/12.919999999999998/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/03-04-2021_211540.kan/17
+26/recruterCase;1,1;2,1;2,2;3,1;3,3;4,3/Recherche/25.333333333333332/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/04-04-2021_175948.kan/20
+27/recruterCase;9,4;11,3/Recherche/12.159999999999998/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/03-04-2021_211540.kan/17
+28/recruterCase;1,1;2,1;2,2;3,1;3,3;4,3/Recherche/22.66666666666666/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/04-04-2021_175948.kan/20
+29/recruterCase;9,4;11,3/Recherche/3.014666666666667/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/04-04-2021_175948.kan/21
+30/deplacer;4,3;5,4;4;False/Recherche/6.799999999999998/C:\Users\Simon Biffe\Documents\Programmes\Kanze/Sauvegardes/Auto/04-04-2021_175948.kan/22
+31/deplacer;10,4;9,4;1;False/Aleatoire
+32/deplacer;3,3;5,4;2;False/Aleatoire
+33/deplacer;9,4;9,5;5;False/Aleatoire
+34/deplacer;2,1;5,4;1;False/Aleatoire
+35/deplacer;9,4;9,3;1;False/Aleatoire
+36/recruterCase;1,1;2,1;2,2;3,1;3,3;4,3/Aleatoire
+37/recruterCase;9,3;9,5;10,4;12,1/Aleatoire
+38/deplacer;2,2;5,5;4;False/Aleatoire
+39/deplacer;9,5;10,3;4;False/Aleatoire
+40/recruterCase;1,1;2,2;3,1;3,3;4,3;5,5/Aleatoire
+41/deplacer;11,3;9,5;3;True/Aleatoire
+42/deplacer;1,1;3,2;2;False/Aleatoire
+43/recruterCase;9,3;9,5;10,3;10,4;11,3;12,1/Aleatoire
+44/deplacer;3,3;2,2;1;False/Aleatoire
+45/recruterCase;9,3;9,5;10,3;10,4;11,3/Aleatoire
+46/recruterCase;1,1;2,2;3,3;3,2/Aleatoire
+47/deplacer;9,5;8,4;1;True/Aleatoire
+48/deplacer;5,4;4,2;6;False/Aleatoire
+49/deplacer;11,3;9,4;2;False/Aleatoire
+50/deplacer;2,1;2,2;1;False/Aleatoire
+51/deplacer;9,4;8,6;2;False/Aleatoire
+52/deplacer;2,1;5,3;3;False/Aleatoire
+53/recruterCase;8,4;8,6;9,3;9,5;10,3;10,4;11,3/Aleatoire
+54/deplacer;2,1;6,5;3;False/Aleatoire
+55/deplacer;8,4;7,5;2;True/Aleatoire
+56/deplacer;1,1;7,6;6;True/Aleatoire
+57/deplacer;10,4;9,2;1;False/Aleatoire
+58/deplacer;2,2;6,6;6;False/Aleatoire
+59/recruterCase;7,5;8,6;9,2;9,3;10,4;11,3/Aleatoire
+60/deplacer;5,4;2,2;1;False/Aleatoire
+61/recruterCase;8,6/Aleatoire
+62/deplacer;5,5;6,5;4;False/Aleatoire
+63/deplacer;9,5;9,4;1;False/Aleatoire
+64/deplacer;6,5;6,6;1;False/Aleatoire
+65/deplacer;9,5;8,4;1;False/Aleatoire
+66/deplacer;3,2;4,1;2;False/Aleatoire
+67/deplacer;9,4;10,2;1;False/Aleatoire
+68/deplacer;4,2;1,1;5;False/Aleatoire
+69/deplacer;12,1;11,1;3;False/Aleatoire
+70/deplacer;4,2;3,2;1;False/Aleatoire
+71/deplacer;12,1;7,5;2;False/Aleatoire
+72/0/Aleatoire
+73/deplacer;7,5;7,6;4;True/Aleatoire

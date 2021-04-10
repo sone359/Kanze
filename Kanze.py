@@ -1864,8 +1864,9 @@ class EntraineurIA:
             self._IAJoueur1.choixAction()
             try :
                 self.finDuTour()
+                print("Partie", i, "terminée")
             except RecursionError:
-                pass
+                print("Echec de la partie", i)
         
     def finDuTour(self):
         """
@@ -1961,4 +1962,4 @@ class EntraineurIA:
             
 # ------------------------------Programme principal--------------------------- 
 FenetreGlobale()
-#EntraineurIA(5)
+#EntraineurIA(20)
