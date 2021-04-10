@@ -15,7 +15,7 @@ import random
 class InfosDePartie:
     """
     Classe gérant l'accès et les modifications des données de jeu. Il contient
-    des méthodes permettant l'accès aux attributs, la manipulation de 
+    des méthodes permettant l'accès aux attributs, la manipulation de
     sauvegarde et le jeu d'une action d'un joueur.
     """
     def __init__(self, nouvellePartie:bool=True, nombreDeTroupesMax:int=49, casesNeutresNonAdjacentes:bool=True, casesAdversesNonAdjacentes:bool=False, caseDepartJ1:tuple=(13, 1), caseDepartJ2:tuple=(1, 1)):
@@ -31,24 +31,24 @@ class InfosDePartie:
             Sinon, une sauvegarde est importée.
             The default is True.
         nombreDeTroupesMax : int, optional
-            Nombre de troupes maximales de chaque joueur, il peut seulement 
+            Nombre de troupes maximales de chaque joueur, il peut seulement
             être dépassé grâce à l'influence.
             The default is 49.
         casesNeutresNonAdjacentes : bool, optional
-            Si ce paramètre est vrai, un joueur peut déplacer des troupes sur 
+            Si ce paramètre est vrai, un joueur peut déplacer des troupes sur
             une case neutre non-adjacente à la case de départ tant que les
             deux cases sont reliées par des cases du joueur.
             The default is True.
         casesAdversesNonAdjacentes : bool, optional
-            Si ce paramètre est vrai, un joueur peut déplacer des troupes sur 
+            Si ce paramètre est vrai, un joueur peut déplacer des troupes sur
             une case adverse non-adjacente à la case de départ tant que les
             deux cases sont reliées par des cases du joueur.
             The default is False.
         caseDepartJ1 : tuple, optional
-            Case de départ du joueur 1, où sont positionnées au début de la 
+            Case de départ du joueur 1, où sont positionnées au début de la
             partie 7 de ses troupes et son Représentant.
         caseDepartJ2 : tuple, optional
-            Case de départ du joueur 2, où sont positionnées au début de la 
+            Case de départ du joueur 2, où sont positionnées au début de la
             partie 7 de ses troupes et son Représentant.
 
         Returns
@@ -60,59 +60,59 @@ class InfosDePartie:
                           # Indication de fin de partie (0 si elle est en cours, 1 si le joueur 1 a gagné, 2 si c'est le joueur 2, 3 si la partie est nulle)
             self._infos = [{"indicationPartie":0, "nombreDeTroupesMax":nombreDeTroupesMax, "casesNeutresNonAdjacentes":casesNeutresNonAdjacentes, "casesAdversesNonAdjacentes":casesAdversesNonAdjacentes},
                           # 1er tour (indice 1 de la liste)
-                           {('nombreTroupes', 'Joueur 1'): 7, 
+                           {('nombreTroupes', 'Joueur 1'): 7,
                             ('nombreTroupes', 'Joueur 2'): 7,
                             ('nombreCases', 'Joueur 1') : 1,
                             ('nombreCases', 'Joueur 2') : 1,
                             "action": None,
-                            (1, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 0, 200, 50], 'Representant': True, 'CasesAdjacentes': [(2, 1), (2, 2)]}, 
-                            (2, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [125, 50, 175, 100], 'Representant': False, 'CasesAdjacentes': [(1, 1), (2, 2), (3, 1), (3, 2)]}, 
-                            (2, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [175, 50, 225, 100], 'Representant': False, 'CasesAdjacentes': [(1, 1), (2, 1), (3, 2), (3, 3)]}, 
-                            (3, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [100, 100, 150, 150], 'Representant': False, 'CasesAdjacentes': [(2, 1), (3, 2), (4, 1), (4, 2)]}, 
-                            (3, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 100, 200, 150], 'Representant': False, 'CasesAdjacentes': [(2, 1), (2, 2), (3, 1), (3, 3), (4, 2), (4, 3)]}, 
-                            (3, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [200, 100, 250, 150], 'Representant': False, 'CasesAdjacentes': [(2, 2), (3, 2), (4, 3), (4, 4)]}, 
-                            (4, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [75, 150, 125, 200], 'Representant': False, 'CasesAdjacentes': [(3, 1), (4, 2), (5, 1), (5, 2)]}, 
-                            (4, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [125, 150, 175, 200], 'Representant': False, 'CasesAdjacentes': [(3, 1), (3, 2), (4, 1), (4, 3), (5, 2), (5, 3)]}, 
-                            (4, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [175, 150, 225, 200], 'Representant': False, 'CasesAdjacentes': [(3, 2), (3, 3), (4, 2), (4, 4), (5, 3), (5, 4)]}, 
-                            (4, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [225, 150, 275, 200], 'Representant': False, 'CasesAdjacentes': [(3, 3), (4, 3), (5, 4), (5, 5)]}, 
-                            (5, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [50, 200, 100, 250], 'Representant': False, 'CasesAdjacentes': [(4, 1), (5, 2), (6, 1), (6, 2)]}, 
-                            (5, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [100, 200, 150, 250], 'Representant': False, 'CasesAdjacentes': [(4, 1), (4, 2), (5, 1), (5, 3), (6, 2), (6, 3)]}, 
-                            (5, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 200, 200, 250], 'Representant': False, 'CasesAdjacentes': [(4, 2), (4, 3), (5, 2), (5, 4), (6, 3), (6, 4)]}, 
-                            (5, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [200, 200, 250, 250], 'Representant': False, 'CasesAdjacentes': [(4, 3), (4, 4), (5, 3), (5, 5), (6, 4), (6, 5)]}, 
-                            (5, 5): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [250, 200, 300, 250], 'Representant': False, 'CasesAdjacentes': [(4, 4), (5, 4), (6, 5), (6, 6)]}, 
-                            (6, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [25, 250, 75, 300], 'Representant': False, 'CasesAdjacentes': [(5, 1), (6, 2), (7, 1), (7, 2)]}, 
-                            (6, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [75, 250, 125, 300], 'Representant': False, 'CasesAdjacentes': [(5, 1), (5, 2), (6, 1), (6, 3), (7, 2), (7, 3)]}, 
-                            (6, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [125, 250, 175, 300], 'Representant': False, 'CasesAdjacentes': [(5, 2), (5, 3), (6, 2), (6, 4), (7, 3), (7, 4)]}, 
-                            (6, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [175, 250, 225, 300], 'Representant': False, 'CasesAdjacentes': [(5, 3), (5, 4), (6, 3), (6, 5), (7, 4), (7, 5)]}, 
-                            (6, 5): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [225, 250, 275, 300], 'Representant': False, 'CasesAdjacentes': [(5, 4), (5, 5), (6, 4), (6, 6), (7, 5), (7, 6)]}, 
-                            (6, 6): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [275, 250, 325, 300], 'Representant': False, 'CasesAdjacentes': [(5, 5), (6, 5), (7, 6), (7, 7)]}, 
-                            (7, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [0, 300, 50, 350], 'Representant': False, 'CasesAdjacentes': [(6, 1), (7, 2), (8, 1)]}, 
-                            (7, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [50, 300, 100, 350], 'Representant': False, 'CasesAdjacentes': [(6, 1), (6, 2), (7, 1), (7, 3), (8, 1), (8, 2)]}, 
-                            (7, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [100, 300, 150, 350], 'Representant': False, 'CasesAdjacentes': [(6, 2), (6, 3), (7, 2), (7, 4), (8, 2), (8, 3)]}, 
-                            (7, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 300, 200, 350], 'Representant': False, 'CasesAdjacentes': [(6, 3), (6, 4), (7, 3), (7, 5), (8, 3), (8, 4)]}, 
-                            (7, 5): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [200, 300, 250, 350], 'Representant': False, 'CasesAdjacentes': [(6, 4), (6, 5), (7, 4), (7, 6), (8, 4), (8, 5)]}, 
-                            (7, 6): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [250, 300, 300, 350], 'Representant': False, 'CasesAdjacentes': [(6, 5), (6, 6), (7, 5), (7, 7), (8, 5), (8, 6)]}, 
-                            (7, 7): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [300, 300, 350, 350], 'Representant': False, 'CasesAdjacentes': [(6, 6), (7, 6), (8, 6)]}, 
-                            (8, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [25, 350, 75, 400], 'Representant': False, 'CasesAdjacentes': [(7, 1), (7, 2), (8, 2), (9, 1)]}, 
-                            (8, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [75, 350, 125, 400], 'Representant': False, 'CasesAdjacentes': [(7, 2), (7, 3), (8, 1), (8, 3), (9, 1), (9, 2)]}, 
-                            (8, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [125, 350, 175, 400], 'Representant': False, 'CasesAdjacentes': [(7, 3), (7, 4), (8, 2), (8, 4), (9, 2), (9, 3)]}, 
-                            (8, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [175, 350, 225, 400], 'Representant': False, 'CasesAdjacentes': [(7, 4), (7, 5), (8, 3), (8, 5), (9, 3), (9, 4)]}, 
-                            (8, 5): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [225, 350, 275, 400], 'Representant': False, 'CasesAdjacentes': [(7, 5), (7, 6), (8, 4), (8, 6), (9, 4), (9, 5)]}, 
-                            (8, 6): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [275, 350, 325, 400], 'Representant': False, 'CasesAdjacentes': [(7, 6), (7, 7), (8, 5), (9, 5)]}, 
-                            (9, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [50, 400, 100, 450], 'Representant': False, 'CasesAdjacentes': [(8, 1), (8, 2), (9, 2), (10, 1)]}, 
-                            (9, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [100, 400, 150, 450], 'Representant': False, 'CasesAdjacentes': [(8, 2), (8, 3), (9, 1), (9, 3), (10, 1), (10, 2)]}, 
-                            (9, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 400, 200, 450], 'Representant': False, 'CasesAdjacentes': [(8, 3), (8, 4), (9, 2), (9, 4), (10, 2), (10, 3)]}, 
-                            (9, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [200, 400, 250, 450], 'Representant': False, 'CasesAdjacentes': [(8, 4), (8, 5), (9, 3), (9, 5), (10, 3), (10, 4)]}, 
-                            (9, 5): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [250, 400, 300, 450], 'Representant': False, 'CasesAdjacentes': [(8, 5), (8, 6), (9, 4), (10, 4)]}, 
-                            (10, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [75, 450, 125, 500], 'Representant': False, 'CasesAdjacentes': [(9, 1), (9, 2), (10, 2), (11, 1)]}, 
-                            (10, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [125, 450, 175, 500], 'Representant': False, 'CasesAdjacentes': [(9, 2), (9, 3), (10, 1), (10, 3), (11, 1), (11, 2)]}, 
-                            (10, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [175, 450, 225, 500], 'Representant': False, 'CasesAdjacentes': [(9, 3), (9, 4), (10, 2), (10, 4), (11, 2), (11, 3)]}, 
-                            (10, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [225, 450, 275, 500], 'Representant': False, 'CasesAdjacentes': [(9, 4), (9, 5), (10, 3), (11, 3)]}, 
-                            (11, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [100, 500, 150, 550], 'Representant': False, 'CasesAdjacentes': [(10, 1), (10, 2), (11, 2), (12, 1)]}, 
-                            (11, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 500, 200, 550], 'Representant': False, 'CasesAdjacentes': [(10, 2), (10, 3), (11, 1), (11, 3), (12, 1), (12, 2)]}, 
-                            (11, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [200, 500, 250, 550], 'Representant': False, 'CasesAdjacentes': [(10, 3), (10, 4), (11, 2), (12, 2)]}, 
-                            (12, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [125, 550, 175, 600], 'Representant': False, 'CasesAdjacentes': [(11, 1), (11, 2), (12, 2), (13, 1)]}, 
-                            (12, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [175, 550, 225, 600], 'Representant': False, 'CasesAdjacentes': [(11, 2), (11, 3), (12, 1), (13, 1)]}, 
+                            (1, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 0, 200, 50], 'Representant': True, 'CasesAdjacentes': [(2, 1), (2, 2)]},
+                            (2, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [125, 50, 175, 100], 'Representant': False, 'CasesAdjacentes': [(1, 1), (2, 2), (3, 1), (3, 2)]},
+                            (2, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [175, 50, 225, 100], 'Representant': False, 'CasesAdjacentes': [(1, 1), (2, 1), (3, 2), (3, 3)]},
+                            (3, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [100, 100, 150, 150], 'Representant': False, 'CasesAdjacentes': [(2, 1), (3, 2), (4, 1), (4, 2)]},
+                            (3, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 100, 200, 150], 'Representant': False, 'CasesAdjacentes': [(2, 1), (2, 2), (3, 1), (3, 3), (4, 2), (4, 3)]},
+                            (3, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [200, 100, 250, 150], 'Representant': False, 'CasesAdjacentes': [(2, 2), (3, 2), (4, 3), (4, 4)]},
+                            (4, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [75, 150, 125, 200], 'Representant': False, 'CasesAdjacentes': [(3, 1), (4, 2), (5, 1), (5, 2)]},
+                            (4, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [125, 150, 175, 200], 'Representant': False, 'CasesAdjacentes': [(3, 1), (3, 2), (4, 1), (4, 3), (5, 2), (5, 3)]},
+                            (4, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [175, 150, 225, 200], 'Representant': False, 'CasesAdjacentes': [(3, 2), (3, 3), (4, 2), (4, 4), (5, 3), (5, 4)]},
+                            (4, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [225, 150, 275, 200], 'Representant': False, 'CasesAdjacentes': [(3, 3), (4, 3), (5, 4), (5, 5)]},
+                            (5, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [50, 200, 100, 250], 'Representant': False, 'CasesAdjacentes': [(4, 1), (5, 2), (6, 1), (6, 2)]},
+                            (5, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [100, 200, 150, 250], 'Representant': False, 'CasesAdjacentes': [(4, 1), (4, 2), (5, 1), (5, 3), (6, 2), (6, 3)]},
+                            (5, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 200, 200, 250], 'Representant': False, 'CasesAdjacentes': [(4, 2), (4, 3), (5, 2), (5, 4), (6, 3), (6, 4)]},
+                            (5, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [200, 200, 250, 250], 'Representant': False, 'CasesAdjacentes': [(4, 3), (4, 4), (5, 3), (5, 5), (6, 4), (6, 5)]},
+                            (5, 5): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [250, 200, 300, 250], 'Representant': False, 'CasesAdjacentes': [(4, 4), (5, 4), (6, 5), (6, 6)]},
+                            (6, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [25, 250, 75, 300], 'Representant': False, 'CasesAdjacentes': [(5, 1), (6, 2), (7, 1), (7, 2)]},
+                            (6, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [75, 250, 125, 300], 'Representant': False, 'CasesAdjacentes': [(5, 1), (5, 2), (6, 1), (6, 3), (7, 2), (7, 3)]},
+                            (6, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [125, 250, 175, 300], 'Representant': False, 'CasesAdjacentes': [(5, 2), (5, 3), (6, 2), (6, 4), (7, 3), (7, 4)]},
+                            (6, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [175, 250, 225, 300], 'Representant': False, 'CasesAdjacentes': [(5, 3), (5, 4), (6, 3), (6, 5), (7, 4), (7, 5)]},
+                            (6, 5): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [225, 250, 275, 300], 'Representant': False, 'CasesAdjacentes': [(5, 4), (5, 5), (6, 4), (6, 6), (7, 5), (7, 6)]},
+                            (6, 6): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [275, 250, 325, 300], 'Representant': False, 'CasesAdjacentes': [(5, 5), (6, 5), (7, 6), (7, 7)]},
+                            (7, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [0, 300, 50, 350], 'Representant': False, 'CasesAdjacentes': [(6, 1), (7, 2), (8, 1)]},
+                            (7, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [50, 300, 100, 350], 'Representant': False, 'CasesAdjacentes': [(6, 1), (6, 2), (7, 1), (7, 3), (8, 1), (8, 2)]},
+                            (7, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [100, 300, 150, 350], 'Representant': False, 'CasesAdjacentes': [(6, 2), (6, 3), (7, 2), (7, 4), (8, 2), (8, 3)]},
+                            (7, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 300, 200, 350], 'Representant': False, 'CasesAdjacentes': [(6, 3), (6, 4), (7, 3), (7, 5), (8, 3), (8, 4)]},
+                            (7, 5): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [200, 300, 250, 350], 'Representant': False, 'CasesAdjacentes': [(6, 4), (6, 5), (7, 4), (7, 6), (8, 4), (8, 5)]},
+                            (7, 6): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [250, 300, 300, 350], 'Representant': False, 'CasesAdjacentes': [(6, 5), (6, 6), (7, 5), (7, 7), (8, 5), (8, 6)]},
+                            (7, 7): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [300, 300, 350, 350], 'Representant': False, 'CasesAdjacentes': [(6, 6), (7, 6), (8, 6)]},
+                            (8, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [25, 350, 75, 400], 'Representant': False, 'CasesAdjacentes': [(7, 1), (7, 2), (8, 2), (9, 1)]},
+                            (8, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [75, 350, 125, 400], 'Representant': False, 'CasesAdjacentes': [(7, 2), (7, 3), (8, 1), (8, 3), (9, 1), (9, 2)]},
+                            (8, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [125, 350, 175, 400], 'Representant': False, 'CasesAdjacentes': [(7, 3), (7, 4), (8, 2), (8, 4), (9, 2), (9, 3)]},
+                            (8, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [175, 350, 225, 400], 'Representant': False, 'CasesAdjacentes': [(7, 4), (7, 5), (8, 3), (8, 5), (9, 3), (9, 4)]},
+                            (8, 5): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [225, 350, 275, 400], 'Representant': False, 'CasesAdjacentes': [(7, 5), (7, 6), (8, 4), (8, 6), (9, 4), (9, 5)]},
+                            (8, 6): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [275, 350, 325, 400], 'Representant': False, 'CasesAdjacentes': [(7, 6), (7, 7), (8, 5), (9, 5)]},
+                            (9, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [50, 400, 100, 450], 'Representant': False, 'CasesAdjacentes': [(8, 1), (8, 2), (9, 2), (10, 1)]},
+                            (9, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [100, 400, 150, 450], 'Representant': False, 'CasesAdjacentes': [(8, 2), (8, 3), (9, 1), (9, 3), (10, 1), (10, 2)]},
+                            (9, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 400, 200, 450], 'Representant': False, 'CasesAdjacentes': [(8, 3), (8, 4), (9, 2), (9, 4), (10, 2), (10, 3)]},
+                            (9, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [200, 400, 250, 450], 'Representant': False, 'CasesAdjacentes': [(8, 4), (8, 5), (9, 3), (9, 5), (10, 3), (10, 4)]},
+                            (9, 5): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [250, 400, 300, 450], 'Representant': False, 'CasesAdjacentes': [(8, 5), (8, 6), (9, 4), (10, 4)]},
+                            (10, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [75, 450, 125, 500], 'Representant': False, 'CasesAdjacentes': [(9, 1), (9, 2), (10, 2), (11, 1)]},
+                            (10, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [125, 450, 175, 500], 'Representant': False, 'CasesAdjacentes': [(9, 2), (9, 3), (10, 1), (10, 3), (11, 1), (11, 2)]},
+                            (10, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [175, 450, 225, 500], 'Representant': False, 'CasesAdjacentes': [(9, 3), (9, 4), (10, 2), (10, 4), (11, 2), (11, 3)]},
+                            (10, 4): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [225, 450, 275, 500], 'Representant': False, 'CasesAdjacentes': [(9, 4), (9, 5), (10, 3), (11, 3)]},
+                            (11, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [100, 500, 150, 550], 'Representant': False, 'CasesAdjacentes': [(10, 1), (10, 2), (11, 2), (12, 1)]},
+                            (11, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 500, 200, 550], 'Representant': False, 'CasesAdjacentes': [(10, 2), (10, 3), (11, 1), (11, 3), (12, 1), (12, 2)]},
+                            (11, 3): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [200, 500, 250, 550], 'Representant': False, 'CasesAdjacentes': [(10, 3), (10, 4), (11, 2), (12, 2)]},
+                            (12, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [125, 550, 175, 600], 'Representant': False, 'CasesAdjacentes': [(11, 1), (11, 2), (12, 2), (13, 1)]},
+                            (12, 2): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [175, 550, 225, 600], 'Representant': False, 'CasesAdjacentes': [(11, 2), (11, 3), (12, 1), (13, 1)]},
                             (13, 1): {'Proprietaire': 'Neutre', 'Troupes': 0, 'Coordonnees': [150, 600, 200, 650], 'Representant': True, 'CasesAdjacentes': [(12, 1), (12, 2)]}}]
             self[1][caseDepartJ1]['Proprietaire'] = 'Joueur 1'
             self[1][caseDepartJ2]['Proprietaire'] = 'Joueur 2'
@@ -120,11 +120,11 @@ class InfosDePartie:
             self[1][caseDepartJ2]['Troupes'] = 7
             self._infos.append(copy.deepcopy(self[1]))
             self.tour = 1
-        
+
     def __getitem__(self, index:int):
         """
         Méthode permettant d'accéder à un index de l'attribut _infos en
-        interrogeant l'objet de classe InfosDePartie sous la forme 
+        interrogeant l'objet de classe InfosDePartie sous la forme
         objet[index].
 
         Parameters
@@ -139,18 +139,18 @@ class InfosDePartie:
 
         """
         return self._infos[index]
-    
+
     def __setitem__(self, index:int, valeur):
         """
-        Méthode permettant d'attribuer une valeur à un index de l'attribut 
-        _infos en interrogeant l'objet de classe InfosDePartie sous la forme 
+        Méthode permettant d'attribuer une valeur à un index de l'attribut
+        _infos en interrogeant l'objet de classe InfosDePartie sous la forme
         objet[index] = valeur.
 
         Parameters
         ----------
         index : int
             Index de self auquel on veut attribuer une valeur.
-            
+
         valeur : all types
             Valeur à attribuer.
 
@@ -160,10 +160,10 @@ class InfosDePartie:
 
         """
         self._infos[index] = valeur
-        
+
     def __delitem__(self, index:int):
         """
-        Méthode permettant de supprimer la valeur correspondant à un index de 
+        Méthode permettant de supprimer la valeur correspondant à un index de
         l'attribut _infos en interrogeant l'objet de classe InfosDePartie sous
         la forme del objet[index].
 
@@ -178,10 +178,10 @@ class InfosDePartie:
 
         """
         del self._infos[index]
-    
+
     def __contains__(self, donneeCherche):
         """
-        Méthode permettant de vérifier si une donnée est présente dans 
+        Méthode permettant de vérifier si une donnée est présente dans
         l'attribut _infos en interrogeant l'objet de classe InfosDePartie sous
         la forme valeur in objet.
 
@@ -201,10 +201,10 @@ class InfosDePartie:
             if donnee == donneeCherche:
                 return True
         return False
-    
+
     def __len__(self):
         """
-        Méthode renvoyant la longueur de l'attribut _infos en interrogeant 
+        Méthode renvoyant la longueur de l'attribut _infos en interrogeant
         l'objet de classe InfosDePartie sous la forme len(objet).
 
         Returns
@@ -214,7 +214,7 @@ class InfosDePartie:
 
         """
         return len(self._infos)
-    
+
     def sauvegarder(self, fenetre=None, choixSauvegarde="choix"):
         """
         Méthode permettant de sauvegarder les données de jeu, soit celles
@@ -227,7 +227,7 @@ class InfosDePartie:
         fenetre : tk.Tk
             Fenêtre tkinter parent.
         choixSauvegarde : string, optional
-            Chemin du fichier de sauvegarde. Laisser la valeur par défaut 
+            Chemin du fichier de sauvegarde. Laisser la valeur par défaut
             permet à l'utilisateur de choisir l'endroit où il souhaite
             sauvegarder.
             The default is "choix".
@@ -264,7 +264,7 @@ class InfosDePartie:
         #Ecriture des données converties dans le fichier choisi
         with open(fichierSauvegarde, "w") as fichierSauvegarde:
             fichierSauvegarde.write(sauvegarde)
-            
+
     def calculScore(self):
         differencesTours = [None, None]
         scoresTours = [None]
@@ -281,11 +281,11 @@ class InfosDePartie:
             scoresTours.append((score["evolCasesJoueur"]*100 + score["evolCasesAdversaire"]*100*(-1/4) + score["evolTroupesJoueur"]*100*(1/4) + score["evolTroupesAdversaire"]*100*(-1/8))//4)
         scoresTours.append(0.0)
         return scoresTours
-            
+
     def importerSauvegarde(self, fenetre):
         """
-        Méthode permettant d'importer une sauvegarde au format kan. Elle est 
-        convertie et les données importées viennent remplacer les données de 
+        Méthode permettant d'importer une sauvegarde au format kan. Elle est
+        convertie et les données importées viennent remplacer les données de
         jeu stockées dans _infos.
 
         Parameters
@@ -297,7 +297,7 @@ class InfosDePartie:
         -------
         str
             Erreur éventuelle ou instruction d'actualisation de l'interface.
-            
+
         """
         #Ouverture d'une fenêtre permettant de choisir le fichier à importer
         fichierSauvegarde = filedialog.askopenfilename(title="Choix de la sauvegarde", initialdir=os.path.dirname(__file__)+"/Sauvegardes", filetypes=[("Kanze", "*.kan"), ("All", "*")], multiple=False, parent=fenetre)
@@ -306,7 +306,7 @@ class InfosDePartie:
         #Vérification sommaire que le fichier importé est au bon format
         if len(sauvegarde) < 200:
             return "Ce fichier n'est pas reconnu"
-        #Conversion du fichier importé de manière à pouvoir utiliser les 
+        #Conversion du fichier importé de manière à pouvoir utiliser les
         #données
         sauvegarde = sauvegarde.split("\n")
         sauvegarde[0] = sauvegarde[0].split("/")
@@ -344,59 +344,59 @@ class InfosDePartie:
             casesFormatees = {}
             for case in tour[7:]:
                 casesFormatees[(int(case[0][0]), int(case[0][1]))] = {"Proprietaire":case[1], "Troupes":int(case[2]), "Representant":case[3]=="True"}
-            self._infos.append({('nombreTroupes', 'Joueur 1'): int(tour[1]), 
+            self._infos.append({('nombreTroupes', 'Joueur 1'): int(tour[1]),
                                 ('nombreTroupes', 'Joueur 2'): int(tour[2]),
-                                ('nombreCases', 'Joueur 1'): int(tour[3]), 
+                                ('nombreCases', 'Joueur 1'): int(tour[3]),
                                 ('nombreCases', 'Joueur 2'): int(tour[4]),
                                 "action": tour[6],
-                                (1, 1): {'Proprietaire': casesFormatees[(1, 1)]['Proprietaire'], 'Troupes': casesFormatees[(1, 1)]['Troupes'], 'Coordonnees': [150, 0, 200, 50], 'Representant': casesFormatees[(1, 1)]['Representant'], 'CasesAdjacentes': [(2, 1), (2, 2)]}, 
-                                (2, 1): {'Proprietaire': casesFormatees[(2, 1)]['Proprietaire'], 'Troupes': casesFormatees[(2, 1)]['Troupes'], 'Coordonnees': [125, 50, 175, 100], 'Representant': casesFormatees[(2, 1)]['Representant'], 'CasesAdjacentes': [(1, 1), (2, 2), (3, 1), (3, 2)]}, 
-                                (2, 2): {'Proprietaire': casesFormatees[(2, 2)]['Proprietaire'], 'Troupes': casesFormatees[(2, 2)]['Troupes'], 'Coordonnees': [175, 50, 225, 100], 'Representant': casesFormatees[(2, 2)]['Representant'], 'CasesAdjacentes': [(1, 1), (2, 1), (3, 2), (3, 3)]}, 
-                                (3, 1): {'Proprietaire': casesFormatees[(3, 1)]['Proprietaire'], 'Troupes': casesFormatees[(3, 1)]['Troupes'], 'Coordonnees': [100, 100, 150, 150], 'Representant': casesFormatees[(3, 1)]['Representant'], 'CasesAdjacentes': [(2, 1), (3, 2), (4, 1), (4, 2)]}, 
-                                (3, 2): {'Proprietaire': casesFormatees[(3, 2)]['Proprietaire'], 'Troupes': casesFormatees[(3, 2)]['Troupes'], 'Coordonnees': [150, 100, 200, 150], 'Representant': casesFormatees[(3, 2)]['Representant'], 'CasesAdjacentes': [(2, 1), (2, 2), (3, 1), (3, 3), (4, 2), (4, 3)]}, 
-                                (3, 3): {'Proprietaire': casesFormatees[(3, 3)]['Proprietaire'], 'Troupes': casesFormatees[(3, 3)]['Troupes'], 'Coordonnees': [200, 100, 250, 150], 'Representant': casesFormatees[(3, 3)]['Representant'], 'CasesAdjacentes': [(2, 2), (3, 2), (4, 3), (4, 4)]}, 
-                                (4, 1): {'Proprietaire': casesFormatees[(4, 1)]['Proprietaire'], 'Troupes': casesFormatees[(4, 1)]['Troupes'], 'Coordonnees': [75, 150, 125, 200], 'Representant': casesFormatees[(4, 1)]['Representant'], 'CasesAdjacentes': [(3, 1), (4, 2), (5, 1), (5, 2)]}, 
-                                (4, 2): {'Proprietaire': casesFormatees[(4, 2)]['Proprietaire'], 'Troupes': casesFormatees[(4, 2)]['Troupes'], 'Coordonnees': [125, 150, 175, 200], 'Representant': casesFormatees[(4, 2)]['Representant'], 'CasesAdjacentes': [(3, 1), (3, 2), (4, 1), (4, 3), (5, 2), (5, 3)]}, 
-                                (4, 3): {'Proprietaire': casesFormatees[(4, 3)]['Proprietaire'], 'Troupes': casesFormatees[(4, 3)]['Troupes'], 'Coordonnees': [175, 150, 225, 200], 'Representant': casesFormatees[(4, 3)]['Representant'], 'CasesAdjacentes': [(3, 2), (3, 3), (4, 2), (4, 4), (5, 3), (5, 4)]}, 
-                                (4, 4): {'Proprietaire': casesFormatees[(4, 4)]['Proprietaire'], 'Troupes': casesFormatees[(4, 4)]['Troupes'], 'Coordonnees': [225, 150, 275, 200], 'Representant': casesFormatees[(4, 4)]['Representant'], 'CasesAdjacentes': [(3, 3), (4, 3), (5, 4), (5, 5)]}, 
-                                (5, 1): {'Proprietaire': casesFormatees[(5, 1)]['Proprietaire'], 'Troupes': casesFormatees[(5, 1)]['Troupes'], 'Coordonnees': [50, 200, 100, 250], 'Representant': casesFormatees[(5, 1)]['Representant'], 'CasesAdjacentes': [(4, 1), (5, 2), (6, 1), (6, 2)]}, 
-                                (5, 2): {'Proprietaire': casesFormatees[(5, 2)]['Proprietaire'], 'Troupes': casesFormatees[(5, 2)]['Troupes'], 'Coordonnees': [100, 200, 150, 250], 'Representant': casesFormatees[(5, 2)]['Representant'], 'CasesAdjacentes': [(4, 1), (4, 2), (5, 1), (5, 3), (6, 2), (6, 3)]}, 
-                                (5, 3): {'Proprietaire': casesFormatees[(5, 3)]['Proprietaire'], 'Troupes': casesFormatees[(5, 3)]['Troupes'], 'Coordonnees': [150, 200, 200, 250], 'Representant': casesFormatees[(5, 3)]['Representant'], 'CasesAdjacentes': [(4, 2), (4, 3), (5, 2), (5, 4), (6, 3), (6, 4)]}, 
-                                (5, 4): {'Proprietaire': casesFormatees[(5, 4)]['Proprietaire'], 'Troupes': casesFormatees[(5, 4)]['Troupes'], 'Coordonnees': [200, 200, 250, 250], 'Representant': casesFormatees[(5, 4)]['Representant'], 'CasesAdjacentes': [(4, 3), (4, 4), (5, 3), (5, 5), (6, 4), (6, 5)]}, 
-                                (5, 5): {'Proprietaire': casesFormatees[(5, 5)]['Proprietaire'], 'Troupes': casesFormatees[(5, 5)]['Troupes'], 'Coordonnees': [250, 200, 300, 250], 'Representant': casesFormatees[(5, 5)]['Representant'], 'CasesAdjacentes': [(4, 4), (5, 4), (6, 5), (6, 6)]}, 
-                                (6, 1): {'Proprietaire': casesFormatees[(6, 1)]['Proprietaire'], 'Troupes': casesFormatees[(6, 1)]['Troupes'], 'Coordonnees': [25, 250, 75, 300], 'Representant': casesFormatees[(6, 1)]['Representant'], 'CasesAdjacentes': [(5, 1), (6, 2), (7, 1), (7, 2)]}, 
-                                (6, 2): {'Proprietaire': casesFormatees[(6, 2)]['Proprietaire'], 'Troupes': casesFormatees[(6, 2)]['Troupes'], 'Coordonnees': [75, 250, 125, 300], 'Representant': casesFormatees[(6, 2)]['Representant'], 'CasesAdjacentes': [(5, 1), (5, 2), (6, 1), (6, 3), (7, 2), (7, 3)]}, 
-                                (6, 3): {'Proprietaire': casesFormatees[(6, 3)]['Proprietaire'], 'Troupes': casesFormatees[(6, 3)]['Troupes'], 'Coordonnees': [125, 250, 175, 300], 'Representant': casesFormatees[(6, 3)]['Representant'], 'CasesAdjacentes': [(5, 2), (5, 3), (6, 2), (6, 4), (7, 3), (7, 4)]}, 
-                                (6, 4): {'Proprietaire': casesFormatees[(6, 4)]['Proprietaire'], 'Troupes': casesFormatees[(6, 4)]['Troupes'], 'Coordonnees': [175, 250, 225, 300], 'Representant': casesFormatees[(6, 4)]['Representant'], 'CasesAdjacentes': [(5, 3), (5, 4), (6, 3), (6, 5), (7, 4), (7, 5)]}, 
-                                (6, 5): {'Proprietaire': casesFormatees[(6, 5)]['Proprietaire'], 'Troupes': casesFormatees[(6, 5)]['Troupes'], 'Coordonnees': [225, 250, 275, 300], 'Representant': casesFormatees[(6, 5)]['Representant'], 'CasesAdjacentes': [(5, 4), (5, 5), (6, 4), (6, 6), (7, 5), (7, 6)]}, 
-                                (6, 6): {'Proprietaire': casesFormatees[(6, 6)]['Proprietaire'], 'Troupes': casesFormatees[(6, 6)]['Troupes'], 'Coordonnees': [275, 250, 325, 300], 'Representant': casesFormatees[(6, 6)]['Representant'], 'CasesAdjacentes': [(5, 5), (6, 5), (7, 6), (7, 7)]}, 
-                                (7, 1): {'Proprietaire': casesFormatees[(7, 1)]['Proprietaire'], 'Troupes': casesFormatees[(7, 1)]['Troupes'], 'Coordonnees': [0, 300, 50, 350], 'Representant': casesFormatees[(7, 1)]['Representant'], 'CasesAdjacentes': [(6, 1), (7, 2), (8, 1)]}, 
-                                (7, 2): {'Proprietaire': casesFormatees[(7, 2)]['Proprietaire'], 'Troupes': casesFormatees[(7, 2)]['Troupes'], 'Coordonnees': [50, 300, 100, 350], 'Representant': casesFormatees[(7, 2)]['Representant'], 'CasesAdjacentes': [(6, 1), (6, 2), (7, 1), (7, 3), (8, 1), (8, 2)]}, 
-                                (7, 3): {'Proprietaire': casesFormatees[(7, 3)]['Proprietaire'], 'Troupes': casesFormatees[(7, 3)]['Troupes'], 'Coordonnees': [100, 300, 150, 350], 'Representant': casesFormatees[(7, 3)]['Representant'], 'CasesAdjacentes': [(6, 2), (6, 3), (7, 2), (7, 4), (8, 2), (8, 3)]}, 
-                                (7, 4): {'Proprietaire': casesFormatees[(7, 4)]['Proprietaire'], 'Troupes': casesFormatees[(7, 4)]['Troupes'], 'Coordonnees': [150, 300, 200, 350], 'Representant': casesFormatees[(7, 4)]['Representant'], 'CasesAdjacentes': [(6, 3), (6, 4), (7, 3), (7, 5), (8, 3), (8, 4)]}, 
-                                (7, 5): {'Proprietaire': casesFormatees[(7, 5)]['Proprietaire'], 'Troupes': casesFormatees[(7, 5)]['Troupes'], 'Coordonnees': [200, 300, 250, 350], 'Representant': casesFormatees[(7, 5)]['Representant'], 'CasesAdjacentes': [(6, 4), (6, 5), (7, 4), (7, 6), (8, 4), (8, 5)]}, 
-                                (7, 6): {'Proprietaire': casesFormatees[(7, 6)]['Proprietaire'], 'Troupes': casesFormatees[(7, 6)]['Troupes'], 'Coordonnees': [250, 300, 300, 350], 'Representant': casesFormatees[(7, 6)]['Representant'], 'CasesAdjacentes': [(6, 5), (6, 6), (7, 5), (7, 7), (8, 5), (8, 6)]}, 
-                                (7, 7): {'Proprietaire': casesFormatees[(7, 7)]['Proprietaire'], 'Troupes': casesFormatees[(7, 7)]['Troupes'], 'Coordonnees': [300, 300, 350, 350], 'Representant': casesFormatees[(7, 7)]['Representant'], 'CasesAdjacentes': [(6, 6), (7, 6), (8, 6)]}, 
-                                (8, 1): {'Proprietaire': casesFormatees[(8, 1)]['Proprietaire'], 'Troupes': casesFormatees[(8, 1)]['Troupes'], 'Coordonnees': [25, 350, 75, 400], 'Representant': casesFormatees[(8, 1)]['Representant'], 'CasesAdjacentes': [(7, 1), (7, 2), (8, 2), (9, 1)]}, 
-                                (8, 2): {'Proprietaire': casesFormatees[(8, 2)]['Proprietaire'], 'Troupes': casesFormatees[(8, 2)]['Troupes'], 'Coordonnees': [75, 350, 125, 400], 'Representant': casesFormatees[(8, 2)]['Representant'], 'CasesAdjacentes': [(7, 2), (7, 3), (8, 1), (8, 3), (9, 1), (9, 2)]}, 
-                                (8, 3): {'Proprietaire': casesFormatees[(8, 3)]['Proprietaire'], 'Troupes': casesFormatees[(8, 3)]['Troupes'], 'Coordonnees': [125, 350, 175, 400], 'Representant': casesFormatees[(8, 3)]['Representant'], 'CasesAdjacentes': [(7, 3), (7, 4), (8, 2), (8, 4), (9, 2), (9, 3)]}, 
-                                (8, 4): {'Proprietaire': casesFormatees[(8, 4)]['Proprietaire'], 'Troupes': casesFormatees[(8, 4)]['Troupes'], 'Coordonnees': [175, 350, 225, 400], 'Representant': casesFormatees[(8, 4)]['Representant'], 'CasesAdjacentes': [(7, 4), (7, 5), (8, 3), (8, 5), (9, 3), (9, 4)]}, 
-                                (8, 5): {'Proprietaire': casesFormatees[(8, 5)]['Proprietaire'], 'Troupes': casesFormatees[(8, 5)]['Troupes'], 'Coordonnees': [225, 350, 275, 400], 'Representant': casesFormatees[(8, 5)]['Representant'], 'CasesAdjacentes': [(7, 5), (7, 6), (8, 4), (8, 6), (9, 4), (9, 5)]}, 
-                                (8, 6): {'Proprietaire': casesFormatees[(8, 6)]['Proprietaire'], 'Troupes': casesFormatees[(8, 6)]['Troupes'], 'Coordonnees': [275, 350, 325, 400], 'Representant': casesFormatees[(8, 6)]['Representant'], 'CasesAdjacentes': [(7, 6), (7, 7), (8, 5), (9, 5)]}, 
-                                (9, 1): {'Proprietaire': casesFormatees[(9, 1)]['Proprietaire'], 'Troupes': casesFormatees[(9, 1)]['Troupes'], 'Coordonnees': [50, 400, 100, 450], 'Representant': casesFormatees[(9, 1)]['Representant'], 'CasesAdjacentes': [(8, 1), (8, 2), (9, 2), (10, 1)]}, 
-                                (9, 2): {'Proprietaire': casesFormatees[(9, 2)]['Proprietaire'], 'Troupes': casesFormatees[(9, 2)]['Troupes'], 'Coordonnees': [100, 400, 150, 450], 'Representant': casesFormatees[(9, 2)]['Representant'], 'CasesAdjacentes': [(8, 2), (8, 3), (9, 1), (9, 3), (10, 1), (10, 2)]}, 
-                                (9, 3): {'Proprietaire': casesFormatees[(9, 3)]['Proprietaire'], 'Troupes': casesFormatees[(9, 3)]['Troupes'], 'Coordonnees': [150, 400, 200, 450], 'Representant': casesFormatees[(9, 3)]['Representant'], 'CasesAdjacentes': [(8, 3), (8, 4), (9, 2), (9, 4), (10, 2), (10, 3)]}, 
-                                (9, 4): {'Proprietaire': casesFormatees[(9, 4)]['Proprietaire'], 'Troupes': casesFormatees[(9, 4)]['Troupes'], 'Coordonnees': [200, 400, 250, 450], 'Representant': casesFormatees[(9, 4)]['Representant'], 'CasesAdjacentes': [(8, 4), (8, 5), (9, 3), (9, 5), (10, 3), (10, 4)]}, 
-                                (9, 5): {'Proprietaire': casesFormatees[(9, 5)]['Proprietaire'], 'Troupes': casesFormatees[(9, 5)]['Troupes'], 'Coordonnees': [250, 400, 300, 450], 'Representant': casesFormatees[(9, 5)]['Representant'], 'CasesAdjacentes': [(8, 5), (8, 6), (9, 4), (10, 4)]}, 
-                                (10, 1): {'Proprietaire': casesFormatees[(10, 1)]['Proprietaire'], 'Troupes': casesFormatees[(10, 1)]['Troupes'], 'Coordonnees': [75, 450, 125, 500], 'Representant': casesFormatees[(10, 1)]['Representant'], 'CasesAdjacentes': [(9, 1), (9, 2), (10, 2), (11, 1)]}, 
-                                (10, 2): {'Proprietaire': casesFormatees[(10, 2)]['Proprietaire'], 'Troupes': casesFormatees[(10, 2)]['Troupes'], 'Coordonnees': [125, 450, 175, 500], 'Representant': casesFormatees[(10, 2)]['Representant'], 'CasesAdjacentes': [(9, 2), (9, 3), (10, 1), (10, 3), (11, 1), (11, 2)]}, 
-                                (10, 3): {'Proprietaire': casesFormatees[(10, 3)]['Proprietaire'], 'Troupes': casesFormatees[(10, 3)]['Troupes'], 'Coordonnees': [175, 450, 225, 500], 'Representant': casesFormatees[(10, 3)]['Representant'], 'CasesAdjacentes': [(9, 3), (9, 4), (10, 2), (10, 4), (11, 2), (11, 3)]}, 
-                                (10, 4): {'Proprietaire': casesFormatees[(10, 4)]['Proprietaire'], 'Troupes': casesFormatees[(10, 4)]['Troupes'], 'Coordonnees': [225, 450, 275, 500], 'Representant': casesFormatees[(10, 4)]['Representant'], 'CasesAdjacentes': [(9, 4), (9, 5), (10, 3), (11, 3)]}, 
-                                (11, 1): {'Proprietaire': casesFormatees[(11, 1)]['Proprietaire'], 'Troupes': casesFormatees[(11, 1)]['Troupes'], 'Coordonnees': [100, 500, 150, 550], 'Representant': casesFormatees[(11, 1)]['Representant'], 'CasesAdjacentes': [(10, 1), (10, 2), (11, 2), (12, 1)]}, 
-                                (11, 2): {'Proprietaire': casesFormatees[(11, 2)]['Proprietaire'], 'Troupes': casesFormatees[(11, 2)]['Troupes'], 'Coordonnees': [150, 500, 200, 550], 'Representant': casesFormatees[(11, 2)]['Representant'], 'CasesAdjacentes': [(10, 2), (10, 3), (11, 1), (11, 3), (12, 1), (12, 2)]}, 
-                                (11, 3): {'Proprietaire': casesFormatees[(11, 3)]['Proprietaire'], 'Troupes': casesFormatees[(11, 3)]['Troupes'], 'Coordonnees': [200, 500, 250, 550], 'Representant': casesFormatees[(11, 3)]['Representant'], 'CasesAdjacentes': [(10, 3), (10, 4), (11, 2), (12, 2)]}, 
-                                (12, 1): {'Proprietaire': casesFormatees[(12, 1)]['Proprietaire'], 'Troupes': casesFormatees[(12, 1)]['Troupes'], 'Coordonnees': [125, 550, 175, 600], 'Representant': casesFormatees[(12, 1)]['Representant'], 'CasesAdjacentes': [(11, 1), (11, 2), (12, 2), (13, 1)]}, 
-                                (12, 2): {'Proprietaire': casesFormatees[(12, 2)]['Proprietaire'], 'Troupes': casesFormatees[(12, 2)]['Troupes'], 'Coordonnees': [175, 550, 225, 600], 'Representant': casesFormatees[(12, 2)]['Representant'], 'CasesAdjacentes': [(11, 2), (11, 3), (12, 1), (13, 1)]}, 
+                                (1, 1): {'Proprietaire': casesFormatees[(1, 1)]['Proprietaire'], 'Troupes': casesFormatees[(1, 1)]['Troupes'], 'Coordonnees': [150, 0, 200, 50], 'Representant': casesFormatees[(1, 1)]['Representant'], 'CasesAdjacentes': [(2, 1), (2, 2)]},
+                                (2, 1): {'Proprietaire': casesFormatees[(2, 1)]['Proprietaire'], 'Troupes': casesFormatees[(2, 1)]['Troupes'], 'Coordonnees': [125, 50, 175, 100], 'Representant': casesFormatees[(2, 1)]['Representant'], 'CasesAdjacentes': [(1, 1), (2, 2), (3, 1), (3, 2)]},
+                                (2, 2): {'Proprietaire': casesFormatees[(2, 2)]['Proprietaire'], 'Troupes': casesFormatees[(2, 2)]['Troupes'], 'Coordonnees': [175, 50, 225, 100], 'Representant': casesFormatees[(2, 2)]['Representant'], 'CasesAdjacentes': [(1, 1), (2, 1), (3, 2), (3, 3)]},
+                                (3, 1): {'Proprietaire': casesFormatees[(3, 1)]['Proprietaire'], 'Troupes': casesFormatees[(3, 1)]['Troupes'], 'Coordonnees': [100, 100, 150, 150], 'Representant': casesFormatees[(3, 1)]['Representant'], 'CasesAdjacentes': [(2, 1), (3, 2), (4, 1), (4, 2)]},
+                                (3, 2): {'Proprietaire': casesFormatees[(3, 2)]['Proprietaire'], 'Troupes': casesFormatees[(3, 2)]['Troupes'], 'Coordonnees': [150, 100, 200, 150], 'Representant': casesFormatees[(3, 2)]['Representant'], 'CasesAdjacentes': [(2, 1), (2, 2), (3, 1), (3, 3), (4, 2), (4, 3)]},
+                                (3, 3): {'Proprietaire': casesFormatees[(3, 3)]['Proprietaire'], 'Troupes': casesFormatees[(3, 3)]['Troupes'], 'Coordonnees': [200, 100, 250, 150], 'Representant': casesFormatees[(3, 3)]['Representant'], 'CasesAdjacentes': [(2, 2), (3, 2), (4, 3), (4, 4)]},
+                                (4, 1): {'Proprietaire': casesFormatees[(4, 1)]['Proprietaire'], 'Troupes': casesFormatees[(4, 1)]['Troupes'], 'Coordonnees': [75, 150, 125, 200], 'Representant': casesFormatees[(4, 1)]['Representant'], 'CasesAdjacentes': [(3, 1), (4, 2), (5, 1), (5, 2)]},
+                                (4, 2): {'Proprietaire': casesFormatees[(4, 2)]['Proprietaire'], 'Troupes': casesFormatees[(4, 2)]['Troupes'], 'Coordonnees': [125, 150, 175, 200], 'Representant': casesFormatees[(4, 2)]['Representant'], 'CasesAdjacentes': [(3, 1), (3, 2), (4, 1), (4, 3), (5, 2), (5, 3)]},
+                                (4, 3): {'Proprietaire': casesFormatees[(4, 3)]['Proprietaire'], 'Troupes': casesFormatees[(4, 3)]['Troupes'], 'Coordonnees': [175, 150, 225, 200], 'Representant': casesFormatees[(4, 3)]['Representant'], 'CasesAdjacentes': [(3, 2), (3, 3), (4, 2), (4, 4), (5, 3), (5, 4)]},
+                                (4, 4): {'Proprietaire': casesFormatees[(4, 4)]['Proprietaire'], 'Troupes': casesFormatees[(4, 4)]['Troupes'], 'Coordonnees': [225, 150, 275, 200], 'Representant': casesFormatees[(4, 4)]['Representant'], 'CasesAdjacentes': [(3, 3), (4, 3), (5, 4), (5, 5)]},
+                                (5, 1): {'Proprietaire': casesFormatees[(5, 1)]['Proprietaire'], 'Troupes': casesFormatees[(5, 1)]['Troupes'], 'Coordonnees': [50, 200, 100, 250], 'Representant': casesFormatees[(5, 1)]['Representant'], 'CasesAdjacentes': [(4, 1), (5, 2), (6, 1), (6, 2)]},
+                                (5, 2): {'Proprietaire': casesFormatees[(5, 2)]['Proprietaire'], 'Troupes': casesFormatees[(5, 2)]['Troupes'], 'Coordonnees': [100, 200, 150, 250], 'Representant': casesFormatees[(5, 2)]['Representant'], 'CasesAdjacentes': [(4, 1), (4, 2), (5, 1), (5, 3), (6, 2), (6, 3)]},
+                                (5, 3): {'Proprietaire': casesFormatees[(5, 3)]['Proprietaire'], 'Troupes': casesFormatees[(5, 3)]['Troupes'], 'Coordonnees': [150, 200, 200, 250], 'Representant': casesFormatees[(5, 3)]['Representant'], 'CasesAdjacentes': [(4, 2), (4, 3), (5, 2), (5, 4), (6, 3), (6, 4)]},
+                                (5, 4): {'Proprietaire': casesFormatees[(5, 4)]['Proprietaire'], 'Troupes': casesFormatees[(5, 4)]['Troupes'], 'Coordonnees': [200, 200, 250, 250], 'Representant': casesFormatees[(5, 4)]['Representant'], 'CasesAdjacentes': [(4, 3), (4, 4), (5, 3), (5, 5), (6, 4), (6, 5)]},
+                                (5, 5): {'Proprietaire': casesFormatees[(5, 5)]['Proprietaire'], 'Troupes': casesFormatees[(5, 5)]['Troupes'], 'Coordonnees': [250, 200, 300, 250], 'Representant': casesFormatees[(5, 5)]['Representant'], 'CasesAdjacentes': [(4, 4), (5, 4), (6, 5), (6, 6)]},
+                                (6, 1): {'Proprietaire': casesFormatees[(6, 1)]['Proprietaire'], 'Troupes': casesFormatees[(6, 1)]['Troupes'], 'Coordonnees': [25, 250, 75, 300], 'Representant': casesFormatees[(6, 1)]['Representant'], 'CasesAdjacentes': [(5, 1), (6, 2), (7, 1), (7, 2)]},
+                                (6, 2): {'Proprietaire': casesFormatees[(6, 2)]['Proprietaire'], 'Troupes': casesFormatees[(6, 2)]['Troupes'], 'Coordonnees': [75, 250, 125, 300], 'Representant': casesFormatees[(6, 2)]['Representant'], 'CasesAdjacentes': [(5, 1), (5, 2), (6, 1), (6, 3), (7, 2), (7, 3)]},
+                                (6, 3): {'Proprietaire': casesFormatees[(6, 3)]['Proprietaire'], 'Troupes': casesFormatees[(6, 3)]['Troupes'], 'Coordonnees': [125, 250, 175, 300], 'Representant': casesFormatees[(6, 3)]['Representant'], 'CasesAdjacentes': [(5, 2), (5, 3), (6, 2), (6, 4), (7, 3), (7, 4)]},
+                                (6, 4): {'Proprietaire': casesFormatees[(6, 4)]['Proprietaire'], 'Troupes': casesFormatees[(6, 4)]['Troupes'], 'Coordonnees': [175, 250, 225, 300], 'Representant': casesFormatees[(6, 4)]['Representant'], 'CasesAdjacentes': [(5, 3), (5, 4), (6, 3), (6, 5), (7, 4), (7, 5)]},
+                                (6, 5): {'Proprietaire': casesFormatees[(6, 5)]['Proprietaire'], 'Troupes': casesFormatees[(6, 5)]['Troupes'], 'Coordonnees': [225, 250, 275, 300], 'Representant': casesFormatees[(6, 5)]['Representant'], 'CasesAdjacentes': [(5, 4), (5, 5), (6, 4), (6, 6), (7, 5), (7, 6)]},
+                                (6, 6): {'Proprietaire': casesFormatees[(6, 6)]['Proprietaire'], 'Troupes': casesFormatees[(6, 6)]['Troupes'], 'Coordonnees': [275, 250, 325, 300], 'Representant': casesFormatees[(6, 6)]['Representant'], 'CasesAdjacentes': [(5, 5), (6, 5), (7, 6), (7, 7)]},
+                                (7, 1): {'Proprietaire': casesFormatees[(7, 1)]['Proprietaire'], 'Troupes': casesFormatees[(7, 1)]['Troupes'], 'Coordonnees': [0, 300, 50, 350], 'Representant': casesFormatees[(7, 1)]['Representant'], 'CasesAdjacentes': [(6, 1), (7, 2), (8, 1)]},
+                                (7, 2): {'Proprietaire': casesFormatees[(7, 2)]['Proprietaire'], 'Troupes': casesFormatees[(7, 2)]['Troupes'], 'Coordonnees': [50, 300, 100, 350], 'Representant': casesFormatees[(7, 2)]['Representant'], 'CasesAdjacentes': [(6, 1), (6, 2), (7, 1), (7, 3), (8, 1), (8, 2)]},
+                                (7, 3): {'Proprietaire': casesFormatees[(7, 3)]['Proprietaire'], 'Troupes': casesFormatees[(7, 3)]['Troupes'], 'Coordonnees': [100, 300, 150, 350], 'Representant': casesFormatees[(7, 3)]['Representant'], 'CasesAdjacentes': [(6, 2), (6, 3), (7, 2), (7, 4), (8, 2), (8, 3)]},
+                                (7, 4): {'Proprietaire': casesFormatees[(7, 4)]['Proprietaire'], 'Troupes': casesFormatees[(7, 4)]['Troupes'], 'Coordonnees': [150, 300, 200, 350], 'Representant': casesFormatees[(7, 4)]['Representant'], 'CasesAdjacentes': [(6, 3), (6, 4), (7, 3), (7, 5), (8, 3), (8, 4)]},
+                                (7, 5): {'Proprietaire': casesFormatees[(7, 5)]['Proprietaire'], 'Troupes': casesFormatees[(7, 5)]['Troupes'], 'Coordonnees': [200, 300, 250, 350], 'Representant': casesFormatees[(7, 5)]['Representant'], 'CasesAdjacentes': [(6, 4), (6, 5), (7, 4), (7, 6), (8, 4), (8, 5)]},
+                                (7, 6): {'Proprietaire': casesFormatees[(7, 6)]['Proprietaire'], 'Troupes': casesFormatees[(7, 6)]['Troupes'], 'Coordonnees': [250, 300, 300, 350], 'Representant': casesFormatees[(7, 6)]['Representant'], 'CasesAdjacentes': [(6, 5), (6, 6), (7, 5), (7, 7), (8, 5), (8, 6)]},
+                                (7, 7): {'Proprietaire': casesFormatees[(7, 7)]['Proprietaire'], 'Troupes': casesFormatees[(7, 7)]['Troupes'], 'Coordonnees': [300, 300, 350, 350], 'Representant': casesFormatees[(7, 7)]['Representant'], 'CasesAdjacentes': [(6, 6), (7, 6), (8, 6)]},
+                                (8, 1): {'Proprietaire': casesFormatees[(8, 1)]['Proprietaire'], 'Troupes': casesFormatees[(8, 1)]['Troupes'], 'Coordonnees': [25, 350, 75, 400], 'Representant': casesFormatees[(8, 1)]['Representant'], 'CasesAdjacentes': [(7, 1), (7, 2), (8, 2), (9, 1)]},
+                                (8, 2): {'Proprietaire': casesFormatees[(8, 2)]['Proprietaire'], 'Troupes': casesFormatees[(8, 2)]['Troupes'], 'Coordonnees': [75, 350, 125, 400], 'Representant': casesFormatees[(8, 2)]['Representant'], 'CasesAdjacentes': [(7, 2), (7, 3), (8, 1), (8, 3), (9, 1), (9, 2)]},
+                                (8, 3): {'Proprietaire': casesFormatees[(8, 3)]['Proprietaire'], 'Troupes': casesFormatees[(8, 3)]['Troupes'], 'Coordonnees': [125, 350, 175, 400], 'Representant': casesFormatees[(8, 3)]['Representant'], 'CasesAdjacentes': [(7, 3), (7, 4), (8, 2), (8, 4), (9, 2), (9, 3)]},
+                                (8, 4): {'Proprietaire': casesFormatees[(8, 4)]['Proprietaire'], 'Troupes': casesFormatees[(8, 4)]['Troupes'], 'Coordonnees': [175, 350, 225, 400], 'Representant': casesFormatees[(8, 4)]['Representant'], 'CasesAdjacentes': [(7, 4), (7, 5), (8, 3), (8, 5), (9, 3), (9, 4)]},
+                                (8, 5): {'Proprietaire': casesFormatees[(8, 5)]['Proprietaire'], 'Troupes': casesFormatees[(8, 5)]['Troupes'], 'Coordonnees': [225, 350, 275, 400], 'Representant': casesFormatees[(8, 5)]['Representant'], 'CasesAdjacentes': [(7, 5), (7, 6), (8, 4), (8, 6), (9, 4), (9, 5)]},
+                                (8, 6): {'Proprietaire': casesFormatees[(8, 6)]['Proprietaire'], 'Troupes': casesFormatees[(8, 6)]['Troupes'], 'Coordonnees': [275, 350, 325, 400], 'Representant': casesFormatees[(8, 6)]['Representant'], 'CasesAdjacentes': [(7, 6), (7, 7), (8, 5), (9, 5)]},
+                                (9, 1): {'Proprietaire': casesFormatees[(9, 1)]['Proprietaire'], 'Troupes': casesFormatees[(9, 1)]['Troupes'], 'Coordonnees': [50, 400, 100, 450], 'Representant': casesFormatees[(9, 1)]['Representant'], 'CasesAdjacentes': [(8, 1), (8, 2), (9, 2), (10, 1)]},
+                                (9, 2): {'Proprietaire': casesFormatees[(9, 2)]['Proprietaire'], 'Troupes': casesFormatees[(9, 2)]['Troupes'], 'Coordonnees': [100, 400, 150, 450], 'Representant': casesFormatees[(9, 2)]['Representant'], 'CasesAdjacentes': [(8, 2), (8, 3), (9, 1), (9, 3), (10, 1), (10, 2)]},
+                                (9, 3): {'Proprietaire': casesFormatees[(9, 3)]['Proprietaire'], 'Troupes': casesFormatees[(9, 3)]['Troupes'], 'Coordonnees': [150, 400, 200, 450], 'Representant': casesFormatees[(9, 3)]['Representant'], 'CasesAdjacentes': [(8, 3), (8, 4), (9, 2), (9, 4), (10, 2), (10, 3)]},
+                                (9, 4): {'Proprietaire': casesFormatees[(9, 4)]['Proprietaire'], 'Troupes': casesFormatees[(9, 4)]['Troupes'], 'Coordonnees': [200, 400, 250, 450], 'Representant': casesFormatees[(9, 4)]['Representant'], 'CasesAdjacentes': [(8, 4), (8, 5), (9, 3), (9, 5), (10, 3), (10, 4)]},
+                                (9, 5): {'Proprietaire': casesFormatees[(9, 5)]['Proprietaire'], 'Troupes': casesFormatees[(9, 5)]['Troupes'], 'Coordonnees': [250, 400, 300, 450], 'Representant': casesFormatees[(9, 5)]['Representant'], 'CasesAdjacentes': [(8, 5), (8, 6), (9, 4), (10, 4)]},
+                                (10, 1): {'Proprietaire': casesFormatees[(10, 1)]['Proprietaire'], 'Troupes': casesFormatees[(10, 1)]['Troupes'], 'Coordonnees': [75, 450, 125, 500], 'Representant': casesFormatees[(10, 1)]['Representant'], 'CasesAdjacentes': [(9, 1), (9, 2), (10, 2), (11, 1)]},
+                                (10, 2): {'Proprietaire': casesFormatees[(10, 2)]['Proprietaire'], 'Troupes': casesFormatees[(10, 2)]['Troupes'], 'Coordonnees': [125, 450, 175, 500], 'Representant': casesFormatees[(10, 2)]['Representant'], 'CasesAdjacentes': [(9, 2), (9, 3), (10, 1), (10, 3), (11, 1), (11, 2)]},
+                                (10, 3): {'Proprietaire': casesFormatees[(10, 3)]['Proprietaire'], 'Troupes': casesFormatees[(10, 3)]['Troupes'], 'Coordonnees': [175, 450, 225, 500], 'Representant': casesFormatees[(10, 3)]['Representant'], 'CasesAdjacentes': [(9, 3), (9, 4), (10, 2), (10, 4), (11, 2), (11, 3)]},
+                                (10, 4): {'Proprietaire': casesFormatees[(10, 4)]['Proprietaire'], 'Troupes': casesFormatees[(10, 4)]['Troupes'], 'Coordonnees': [225, 450, 275, 500], 'Representant': casesFormatees[(10, 4)]['Representant'], 'CasesAdjacentes': [(9, 4), (9, 5), (10, 3), (11, 3)]},
+                                (11, 1): {'Proprietaire': casesFormatees[(11, 1)]['Proprietaire'], 'Troupes': casesFormatees[(11, 1)]['Troupes'], 'Coordonnees': [100, 500, 150, 550], 'Representant': casesFormatees[(11, 1)]['Representant'], 'CasesAdjacentes': [(10, 1), (10, 2), (11, 2), (12, 1)]},
+                                (11, 2): {'Proprietaire': casesFormatees[(11, 2)]['Proprietaire'], 'Troupes': casesFormatees[(11, 2)]['Troupes'], 'Coordonnees': [150, 500, 200, 550], 'Representant': casesFormatees[(11, 2)]['Representant'], 'CasesAdjacentes': [(10, 2), (10, 3), (11, 1), (11, 3), (12, 1), (12, 2)]},
+                                (11, 3): {'Proprietaire': casesFormatees[(11, 3)]['Proprietaire'], 'Troupes': casesFormatees[(11, 3)]['Troupes'], 'Coordonnees': [200, 500, 250, 550], 'Representant': casesFormatees[(11, 3)]['Representant'], 'CasesAdjacentes': [(10, 3), (10, 4), (11, 2), (12, 2)]},
+                                (12, 1): {'Proprietaire': casesFormatees[(12, 1)]['Proprietaire'], 'Troupes': casesFormatees[(12, 1)]['Troupes'], 'Coordonnees': [125, 550, 175, 600], 'Representant': casesFormatees[(12, 1)]['Representant'], 'CasesAdjacentes': [(11, 1), (11, 2), (12, 2), (13, 1)]},
+                                (12, 2): {'Proprietaire': casesFormatees[(12, 2)]['Proprietaire'], 'Troupes': casesFormatees[(12, 2)]['Troupes'], 'Coordonnees': [175, 550, 225, 600], 'Representant': casesFormatees[(12, 2)]['Representant'], 'CasesAdjacentes': [(11, 2), (11, 3), (12, 1), (13, 1)]},
                                 (13, 1): {'Proprietaire': casesFormatees[(13, 1)]['Proprietaire'], 'Troupes': casesFormatees[(13, 1)]['Troupes'], 'Coordonnees': [150, 600, 200, 650], 'Representant': casesFormatees[(13, 1)]['Representant'], 'CasesAdjacentes': [(12, 1), (12, 2)]}})
         #Le tour actif est fixé au dernier tour de la sauvegarde importée
         self.tour = len(self)-2
@@ -404,7 +404,7 @@ class InfosDePartie:
 
     def changementTour(self, nouveauTour):
         """
-        Vérifie que le tour demandé par le joueur est valide et si c'est 
+        Vérifie que le tour demandé par le joueur est valide et si c'est
         le cas, modifie l'attribut tour pour qu'il corresponde au tour demandé.
 
         Parameters
@@ -425,10 +425,10 @@ class InfosDePartie:
         else:
             self.tour = nouveauTour
             return "Actualisation"
-    
+
     def ajoutTour(self):
         """
-        Ajoute une copie des informations du tour actuel dans la liste des 
+        Ajoute une copie des informations du tour actuel dans la liste des
         tours afin de permettre la navigation entre les tours.
 
         Returns
@@ -437,16 +437,16 @@ class InfosDePartie:
 
         """
         self._infos.append(copy.deepcopy(self[self.tour]))
-    
+
     def nouvelleVersion(self):
         """
-        Supprime tous les tours déjà joués après celui en cours et copie le 
-        tour actuel dans le but de réinitialiser les coups joués si 
+        Supprime tous les tours déjà joués après celui en cours et copie le
+        tour actuel dans le but de réinitialiser les coups joués si
         l'utilisateur revient en arrière et décide de changer le coup joué.
-        
-        Amélioration possible : demander à l'utilisateur s'il est sur de 
-        vouloir supprimer les tours suivants. Ou proposer dans ce cas de 
-        sauvegarder la partie voir créer un système de gestion de branche 
+
+        Amélioration possible : demander à l'utilisateur s'il est sur de
+        vouloir supprimer les tours suivants. Ou proposer dans ce cas de
+        sauvegarder la partie voir créer un système de gestion de branche
         possibles de la partie.
 
         Returns
@@ -456,7 +456,7 @@ class InfosDePartie:
         """
         del self[self.tour+1:]
         self.ajoutTour()
-    
+
     def deplacement(self, caseDepart:tuple, caseArrivee:tuple, nombreTroupes:int, representant:bool):
         """
         Gère l'action "Déplacer" en vérifiant que le déplacement est valide et
@@ -471,7 +471,7 @@ class InfosDePartie:
         nombreTroupes : int
             Nombre de troupes à déplacer depuis la case de départ.
         representant : bool
-            Indication de la présence du Représentant dans les troupes 
+            Indication de la présence du Représentant dans les troupes
             déplacées.
 
         Returns
@@ -549,7 +549,7 @@ class InfosDePartie:
             self[self.tour+1][caseArrivee]["Troupes"] = nombreTroupes
             #L'action jouée est inscrite dans les informations du tour actuel
             self[self.tour]["action"] = ["deplacer", caseDepart, caseArrivee, nombreTroupes, representant]
-      
+
     def verificationDeplacement(self, joueur:str, nombreTroupes:int, caseDepart:tuple, caseArrivee:tuple, representant:bool):
         """
         Fonction vérifiant la validité d'un déplacement.
@@ -565,7 +565,7 @@ class InfosDePartie:
         caseArrivee : tuple
             Coordonnées de la case où arrive le déplacement.
         representant : bool
-            Indication de la présence du Représentant dans les troupes 
+            Indication de la présence du Représentant dans les troupes
             déplacées.
 
         Returns
@@ -613,7 +613,7 @@ class InfosDePartie:
         else:
             validite = False
         return validite, validiteRepresentant
-    
+
     def recrutement(self):
         """
         Fonction gérant le recrutement, ce qui comprend la vérification du nombre de
@@ -685,7 +685,7 @@ class InfosDePartie:
         else:
             self[self.tour+1][case]["Troupes"] += 1
             self[self.tour]["action"].append(case)
-            
+
     def passerTour(self):
         """
         Passe un tour.
@@ -697,10 +697,10 @@ class InfosDePartie:
         """
         self.nouvelleVersion()
         self[self.tour]["action"] = "passer"
-            
+
     def influence(self):
         """
-        Fonction gérant l'influence, soit le changement de propriétaire d'une 
+        Fonction gérant l'influence, soit le changement de propriétaire d'une
         case lorsqu'elle est entourée en majorité par des cases adverses.
 
         Returns
@@ -729,13 +729,13 @@ class InfosDePartie:
 class FenetreGlobale:
     """
     Classe gérant le premier paramétrage et le lancement des parties en créant
-    une fenêtre faisant office de menu de jeu. On y trouve la possiblité de 
-    lancer une partie en modifiant des options, de continuer ou revoir une 
+    une fenêtre faisant office de menu de jeu. On y trouve la possiblité de
+    lancer une partie en modifiant des options, de continuer ou revoir une
     partie importée, de voir les règles du Kanze et de quitter le programme.
     """
     def __init__(self):
         """
-        Constructeur créant la fenêtre dans son état de base et paramétrant 
+        Constructeur créant la fenêtre dans son état de base et paramétrant
         les attributs.
 
         Returns
@@ -744,13 +744,13 @@ class FenetreGlobale:
 
         """
         self.demarrage()
-        
+
     def demarrage(self):
         """
-        Créé une fenêtre et initialise les widgets qui la composent et les 
-        attibuts permettant son fonctionnement et la prise en compte des 
+        Créé une fenêtre et initialise les widgets qui la composent et les
+        attibuts permettant son fonctionnement et la prise en compte des
         choix d'options de l'utilisateur.
-        Cette fonction est appelée au démarrage du programme mais aussi à la 
+        Cette fonction est appelée au démarrage du programme mais aussi à la
         fermeture de toutes les fenêtre de jeu.
 
         Returns
@@ -761,7 +761,7 @@ class FenetreGlobale:
         #Création de la fenêtre
         self.fenetre = tk.Tk()
         self.fenetre.title("Kanzé")
-        
+
         #Initialisation des attributs qui ne représentent pas un élément fixe de la fenêtre
         self._joueur1 = tk.BooleanVar()
         self._joueur2 = tk.BooleanVar()
@@ -770,7 +770,7 @@ class FenetreGlobale:
         self._casesNeutresNonAdjacentes = tk.BooleanVar()
         self._casesNeutresNonAdjacentes.set(True)
         self._casesAdversesNonAdjacentes = tk.BooleanVar()
-            
+
         #Initialisation des attributs qui représentent un élément visible fixe de la fenêtre
         self.boutonNouvellePartie = tk.Button(self.fenetre, text="Nouvelle partie", command=self.nouvellePartie)
         self.boutonNouvellePartie.grid(row=1, column=0)
@@ -780,12 +780,12 @@ class FenetreGlobale:
         self.boutonRegles.grid(row=3, column=0)
         self.boutonQuitter = tk.Button(self.fenetre, text="Quitter", command=self.fenetre.quit)
         self.boutonQuitter.grid(row=4, column=0)
-        
+
         #Début de la boucle durant laquelle on peut interagir avec la fenêtre
         self.fenetre.mainloop()
         #Destruction de la fenêtre lorsque la boucle s'est finie
         self.fenetre.destroy()
-        
+
     def retour(self):
         """
         Permet de repasser la fenêtre de son état de choix d'option à son état
@@ -812,13 +812,13 @@ class FenetreGlobale:
         self.boutonRetour.grid_remove()
         self.boutonLancerPartie.grid_remove()
         self.boutonReinitialiser.grid_remove()
-        
+
         #Les éléments cachés redeviennent visibles
         self.boutonNouvellePartie.grid()
         self.boutonImporterPartie.grid()
         self.boutonRegles.grid()
         self.boutonQuitter.grid()
-        
+
     def reinitialiser(self):
         """
         Réinitialise les attributs gérant les options.
@@ -834,11 +834,11 @@ class FenetreGlobale:
         self._troupesMax.set("49")
         self._casesNeutresNonAdjacentes.set(True)
         self._casesAdversesNonAdjacentes.set(False)
-    
+
     def nouvellePartie(self):
         """
-        Fais passer la fenêtre de son état de base à son état de choix 
-        d'options en cachant les widgets présent à l'écran et en initialisant 
+        Fais passer la fenêtre de son état de base à son état de choix
+        d'options en cachant les widgets présent à l'écran et en initialisant
         ceux permettant à l'utlisateur de modifier le paramétrage de la partie.
 
         Returns
@@ -851,7 +851,7 @@ class FenetreGlobale:
         self.boutonImporterPartie.grid_remove()
         self.boutonRegles.grid_remove()
         self.boutonQuitter.grid_remove()
-        
+
         #Initialisation des attributs qui représentent un élément visible fixe de la fenêtre
         self.texteJoueur1 = tk.Label(self.fenetre, text="Remplacement du joueur 1 par une IA :", fg="black")
         self.texteJoueur1.grid(row=0, column=0, columnspan=7)
@@ -883,17 +883,17 @@ class FenetreGlobale:
         self.boutonLancerPartie.grid(row=5, column=4, columnspan=3)
         self.boutonReinitialiser = tk.Button(self.fenetre, text="Réinitialiser les options", command=self.reinitialiser)
         self.boutonReinitialiser.grid(row=5, column=8, columnspan=3)
-        
+
     def demarrerPartie(self):
         """
         Ferme la fenêtre et démarre une partie avec les paramètres choisis par
-        l'utilisateur en créant un objet de type InfosDePartie et un objet de 
+        l'utilisateur en créant un objet de type InfosDePartie et un objet de
         type FenetreDeJeu adaptés.
-        Cette fonction est appelée quand une nouvelle partie est lancée, 
+        Cette fonction est appelée quand une nouvelle partie est lancée,
         lorsque la fenêtre est dans son état de choix d'options.
-        
-        A noter que la fenêtre est fermée avec la méthode destroy et non quit 
-        comme dans la plupart des autres méthodes car quit ne ferme pas la 
+
+        A noter que la fenêtre est fermée avec la méthode destroy et non quit
+        comme dans la plupart des autres méthodes car quit ne ferme pas la
         fenêtre lorsque une instance tkinter reste ouverte.
 
         Returns
@@ -905,19 +905,19 @@ class FenetreGlobale:
         self._infos = InfosDePartie(nombreDeTroupesMax=int(self._troupesMax.get()), casesNeutresNonAdjacentes=self._casesNeutresNonAdjacentes.get(), casesAdversesNonAdjacentes=self._casesAdversesNonAdjacentes.get())
         FenetreDeJeu(infos=self._infos, etatJoueur1="joueur" if self._joueur1.get() == False else "IA", IAJoueur1=IA("Joueur 1", self._infos), etatJoueur2="joueur" if self._joueur2.get() == False else "IA", IAJoueur2=IA("Joueur 2", self._infos))
         self.demarrage()
-    
+
     def importerPartie(self):
         """
-        Laisse l'utilisateur choisir une partie à importer puis ferme la 
+        Laisse l'utilisateur choisir une partie à importer puis ferme la
         fenêtre et démarre une partie avec les paramètres de la sauvegarde
-        sélectionnée en créant un objet de type InfosDePartie où les 
-        informations de la sauvegarde sont stockés et un objet de 
+        sélectionnée en créant un objet de type InfosDePartie où les
+        informations de la sauvegarde sont stockés et un objet de
         type FenetreDeJeu adapté.
-        Cette fonction est appelée quand une partie importée est lancée, 
+        Cette fonction est appelée quand une partie importée est lancée,
         lorsque la fenêtre est dans son état de base.
-        
-        A noter que la fenêtre est fermée avec la méthode destroy et non quit 
-        comme dans la plupart des autres méthodes car quit ne ferme pas la 
+
+        A noter que la fenêtre est fermée avec la méthode destroy et non quit
+        comme dans la plupart des autres méthodes car quit ne ferme pas la
         fenêtre lorsque une instance tkinter reste ouverte.
 
         Returns
@@ -930,7 +930,7 @@ class FenetreGlobale:
         self.fenetre.destroy()
         FenetreDeJeu(infos=self._infos, etatJoueur1="joueur", IAJoueur1=IA("Joueur 1", self._infos), etatJoueur2="joueur", IAJoueur2=IA("Joueur 2", self._infos))
         self.demarrage()
-        
+
     def regles(self):
         """
         Ouvre une fenêtre dans laquelle sont inscrites les règles du Kanze.
@@ -954,7 +954,7 @@ class FenetreGlobale:
         tk.Button(fenetreRegles, text="Quitter", command=fenetreRegles.quit).grid(row=1, column=0)
         fenetreRegles.mainloop()
         fenetreRegles.destroy()
-        
+
     def quitter(self):
         """
         Quitte la boucle qui fait fonctionner les widgets, ce qui conduit à la
@@ -969,29 +969,29 @@ class FenetreGlobale:
 
 class FenetreDeJeu:
     """
-    Classe gérant la fenêtre de jeu et l'interaction entre l'utilisateur et 
+    Classe gérant la fenêtre de jeu et l'interaction entre l'utilisateur et
     les données.
     """
     def __init__(self, infos:InfosDePartie, etatJoueur1="joueur", IAJoueur1=None, etatJoueur2="joueur", IAJoueur2=None):
         """
-        Constructeur créant une fenêtre servant d'interface de jeu et 
-        initialisant de nombreux attributs qui permettent la construction et 
+        Constructeur créant une fenêtre servant d'interface de jeu et
+        initialisant de nombreux attributs qui permettent la construction et
         l'interaction avec cette fenêtre.
 
         Parameters
         ----------
         infos : InfosDePartie
-            Est un objet contenant toutes les données sur la partie et gérant 
+            Est un objet contenant toutes les données sur la partie et gérant
             leur utilisation et modification.
         etatJoueur1 : str, optional
-            Indique si le joueur 1 est une IA ("IA") ou un utilisateur 
+            Indique si le joueur 1 est une IA ("IA") ou un utilisateur
             ("joueur").
             The default is "joueur".
         IAJoueur1 : IA, optional
             Objet de classe IA permettant au joueur 2 de jouer automatiquement.
             The default is None.
         etatJoueur2 : str, optional
-            Indique si le joueur 2 est une IA ("IA") ou un utilisateur 
+            Indique si le joueur 2 est une IA ("IA") ou un utilisateur
             ("joueur").
             The default is "joueur".
         IAJoueur2 : IA, optional
@@ -1006,7 +1006,7 @@ class FenetreDeJeu:
         #Création de la fenêtre
         self.fenetre = tk.Tk()
         self.fenetre.title("Kanzé")
-        
+
         #Initialisation des attributs qui ne représentent pas un élément fixe de la fenêtre
         self.infos = infos
         self._etatJoueur1 = etatJoueur1
@@ -1026,12 +1026,12 @@ class FenetreDeJeu:
         self._troupesAEnvoyer.set("1")
         self._representant = tk.BooleanVar()
         self._tourChange = tk.StringVar()
-        
+
         #Initialisation des attributs qui représentent un élément fixe de la fenêtre
         self.zonePlateau = tk.Canvas(self.fenetre, width=350, height=650, bg='white')
         self.zonePlateau.grid(row=0, column=0, rowspan=15)
         self.zonePlateau.bind("<Button-1>", self.clic)
-        tk.Label(self.fenetre, textvariable=self._indicationTour, fg="black").grid(row=0, column=1)      
+        tk.Label(self.fenetre, textvariable=self._indicationTour, fg="black").grid(row=0, column=1)
         self.boutonRegles = tk.Button(self.fenetre, text="Règles du jeu", command=self.regles)
         self.boutonRegles.grid(row=0, column=5)
         self.texteJoueur = tk.Label(self.fenetre, text="Choisissez une action Joueur 1 :", fg="black")
@@ -1084,12 +1084,12 @@ class FenetreDeJeu:
         self.fenetre.mainloop()
         #Destruction de la fenêtre lorsque la boucle s'est finie
         self.fenetre.destroy()
-        
+
     def formationCase(self):
         """
         Parcours les infos du tour et pour chaque case trouvée, la trace selon
-        ses coordonnées dans le canvas, puis la colore en fonction de son 
-        propriétaire, ajoute un trait noir pour chaque troupe sur la case et, 
+        ses coordonnées dans le canvas, puis la colore en fonction de son
+        propriétaire, ajoute un trait noir pour chaque troupe sur la case et,
         si il est présent, un trait rouge pour le Représentant.
 
         Returns
@@ -1113,7 +1113,7 @@ class FenetreDeJeu:
                         self.zonePlateau.create_rectangle(self.infos[self.infos.tour][case]["Coordonnees"][0]+23, self.infos[self.infos.tour][case]["Coordonnees"][1]+36, self.infos[self.infos.tour][case]["Coordonnees"][2]-23, self.infos[self.infos.tour][case]["Coordonnees"][3]-6, fill="red", width=0)
                 else:
                     self.zonePlateau.create_oval(self.infos[self.infos.tour][case]["Coordonnees"][0], self.infos[self.infos.tour][case]["Coordonnees"][1], self.infos[self.infos.tour][case]["Coordonnees"][2], self.infos[self.infos.tour][case]["Coordonnees"][3], fill="#fff", width=1)
-                        
+
     def regles(self):
         """
         Ouvre une fenêtre dans laquelle sont inscrites les règles du Kanze.
@@ -1137,12 +1137,12 @@ class FenetreDeJeu:
         tk.Button(fenetreRegles, text="Quitter", command=fenetreRegles.quit).grid(row=1, column=0)
         fenetreRegles.mainloop()
         fenetreRegles.destroy()
-        
+
     def action(self, fonction):
         """
-        Sert d'intermédiaire entre les méthodes de l'objet de type 
+        Sert d'intermédiaire entre les méthodes de l'objet de type
         InfosDePartie et la fenêtre. Cette méthode gère notamment le passage
-        de la fenêtre à son état de recrutement à la case, l'actualisation de 
+        de la fenêtre à son état de recrutement à la case, l'actualisation de
         la fenêtre en fonction des infos de jeu si nécessaire, l'affichage des
         éventuelles notifications d'erreurs et l'appel à la méthode finDuTour
         si aucune notification n'est reçue.
@@ -1215,12 +1215,12 @@ class FenetreDeJeu:
         #Si aucune notification n'est reçue, il est considéré qu'une action a été jouée et on passe à la fin du tour
         else:
             self.finDuTour()
-            
+
     def finDuTour(self):
         """
-        Gère la mise à jour des infos de jeu à la fin d'un tour, ce qui 
-        comprend l'influence, le compte des troupes et évidemment le passage 
-        au tour suivant, met à jour les indications visuelles en fonction des 
+        Gère la mise à jour des infos de jeu à la fin d'un tour, ce qui
+        comprend l'influence, le compte des troupes et évidemment le passage
+        au tour suivant, met à jour les indications visuelles en fonction des
         infos de jeu, vérifie que les conditions de fin de partie ne sont pas
         remplies et gère le lancement du tour d'une IA si nécessaire.
 
@@ -1311,20 +1311,20 @@ class FenetreDeJeu:
             elif self._joueur == "Joueur 2" and self._etatJoueur2 == "IA":
                 self._IAJoueur2.choixAction()
                 self.finDuTour()
-    
+
     def clic(self, event):
         """
         Est appelée lorsque l'utilisateur clique sur le plateau.
         Cette méthode identifie la case sur laquelle l'utilisateur a cliqué et
-        effectue l'action qui en découle, soit la sélection d'une case sur 
+        effectue l'action qui en découle, soit la sélection d'une case sur
         laquelle recruter s'il faut recruter des troupes ou la sélection et
-        l'affichage d'une case de départ ou d'arrivée d'un déplacement dans 
+        l'affichage d'une case de départ ou d'arrivée d'un déplacement dans
         les autres cas.
 
         Parameters
         ----------
         event : Event
-            Objet dérivant les circonstance du clic, ici il sert à connaître 
+            Objet dérivant les circonstance du clic, ici il sert à connaître
             son abscisse et son ordonnée.
 
         Returns
@@ -1355,7 +1355,7 @@ class FenetreDeJeu:
             else:
                 self._tourDeplacement = 0
                 self.boutonDeplacer.config(state="normal")
-                    
+
     def correspondanceCase(self, x:int, y:int):
         """
         Renvoie la case sur laquelle a cliqué l'utilisateur.
@@ -1363,10 +1363,10 @@ class FenetreDeJeu:
         Parameters
         ----------
         x : int
-            Abscisse sur le repère d'un canvas du pointeur de la souris de 
+            Abscisse sur le repère d'un canvas du pointeur de la souris de
             l'utilisateur au moment où il a cliqué.
         y : int
-            Ordonnée sur le repère d'un canvas du pointeur de la souris de 
+            Ordonnée sur le repère d'un canvas du pointeur de la souris de
             l'utilisateur au moment où il a cliqué.
 
         Returns
@@ -1379,12 +1379,12 @@ class FenetreDeJeu:
             if type(self.infos[self.infos.tour][case]) == dict and type(case) == tuple:
                 if self.infos[self.infos.tour][case]["Coordonnees"][0] < x and self.infos[self.infos.tour][case]["Coordonnees"][2] > x and self.infos[self.infos.tour][case]["Coordonnees"][1] < y and self.infos[self.infos.tour][case]["Coordonnees"][3] > y:
                     return case
-                
+
 class IA:
     def __init__(self, joueur:str, infos:InfosDePartie):
         """
-        Constructeur intégrant le joueur remplacé par l'IA et les infos de la 
-        partie correspondante et effectuant un premier tri entre les parties 
+        Constructeur intégrant le joueur remplacé par l'IA et les infos de la
+        partie correspondante et effectuant un premier tri entre les parties
         enregistrées à partir de ces données.
 
         Parameters
@@ -1402,21 +1402,21 @@ class IA:
         self._joueur = joueur
         self._infos = infos
         self._partiesCompatibles = self.evaluationParties(chemin=os.path.dirname(__file__)+"/Sauvegardes")
-        
+
     def evaluationParties(self, chemin:str):
         """
-        Vérifie si le chemin donné est celui d'un fichier ou non. Si c'est le 
-        cas, vérifie si c'est une sauvegarde valide, c'est à dire dont les 
-        paramètres sont les mêmes que ceux de la partie en cours, et lui 
-        attribue un score en fonction de l'indication de fin de partie et du 
-        nombre de tours. Si le chemin pointe sur un dossier, exécute de façon 
+        Vérifie si le chemin donné est celui d'un fichier ou non. Si c'est le
+        cas, vérifie si c'est une sauvegarde valide, c'est à dire dont les
+        paramètres sont les mêmes que ceux de la partie en cours, et lui
+        attribue un score en fonction de l'indication de fin de partie et du
+        nombre de tours. Si le chemin pointe sur un dossier, exécute de façon
         récursive cette méthode sur tous les fichiers et dossiers du dossier.
 
         Parameters
         ----------
         chemin : str
             Chemin qui doit être testé et évalué.
-            
+
         Returns
         -------
         fichiersCompatibles : list
@@ -1448,15 +1448,15 @@ class IA:
                        score -= 0.1
                        nombreTours -= 100
                    score = (score + {"0":0.5, "1":1 if self._joueur == "Joueur 1" else 0.1, "2":1 if self._joueur == "Joueur 2" else 0.1, "3":0.6}[elementsTeste[0]["indicationPartie"]]*2) / 3
-                   fichiersCompatibles.append((chemin, score)) 
+                   fichiersCompatibles.append((chemin, score))
             except ValueError:
                 pass
         return fichiersCompatibles
-    
+
     def triTour(self, compatibiliteMin:int=0.6):
         """
-        Sélectionne les tours ressemblant suffisamment au tour actuel, leur 
-        attribue un score et renvoie une liste des actions qui y ont été 
+        Sélectionne les tours ressemblant suffisamment au tour actuel, leur
+        attribue un score et renvoie une liste des actions qui y ont été
         jouées, triée en fonction de leurs scores.
 
         Parameters
@@ -1469,8 +1469,8 @@ class IA:
         Returns
         -------
         actionsCompatibles : list
-            Liste de tuples contenant le score de compatibilité d'un tour et 
-            l'action qui y a été jouée. Elle est triée en fonction du score 
+            Liste de tuples contenant le score de compatibilité d'un tour et
+            l'action qui y a été jouée. Elle est triée en fonction du score
             dans l'ordre décroissant.
 
         """
@@ -1504,7 +1504,7 @@ class IA:
                                 for k in range (0, int(partie[i][j][2])-self._infos[self._infos.tour][partie[i][j][0]]["Troupes"]):
                                     scoreCompatibilite -= 0.01
                         j+=1
-                    #Si le score attribué au tour est supérieur au minimum requis, le score total du tour est calculé 
+                    #Si le score attribué au tour est supérieur au minimum requis, le score total du tour est calculé
                     #à partir du score de la partie, du score du tour et du score de compatibilité et l'action du tour est convertie et ajoutée à la liste des actions possibles
                     if scoreCompatibilite >= compatibiliteMin:
                         # Conversion de l'action du tour
@@ -1521,7 +1521,7 @@ class IA:
                         actionsCompatibles.append((float(partie[i][0])*fichier[1]*scoreCompatibilite, partie[i][1]))
         actionsCompatibles.sort(reverse=True)
         return actionsCompatibles
-    
+
     def actionAleatoire(self):
         #Création d'une liste de coups possibles entre un déplacement, un recrutement et un passage de tour
         #Parmi les coups possible, 5 seront des déplacements. Le chiffre 5 est une valeur arbitraire qui me semble simplement être un bon ratio par rapport aux nombres des autres actions et peut-être à corriger.
@@ -1529,7 +1529,7 @@ class IA:
         #Sélection des cases du joueur durant le tour actuel
         casesJoueur = []
         for case in self._infos[self._infos.tour]:
-            if type(case) == tuple and type(self._infos[self._infos.tour][case]) == dict: 
+            if type(case) == tuple and type(self._infos[self._infos.tour][case]) == dict:
                 if self._infos[self._infos.tour][case]["Proprietaire"] == self._joueur:
                     casesJoueur.append(case)
         #Parmi les coups possibles, le nombre de recrutements varie entre 0 et 7 selon le nombre de troupes du joueur remplacé par l'IA et le rapport entre son nombre de troupes et son nombre de cases possédées
@@ -1565,7 +1565,7 @@ class IA:
                     del casesJoueur[i]
                 else:
                     i += 1
-            #Recrutement sur chaque case où il est possible de recruter jusqu'à ce que le nombre de troupes atteigne son maximum 
+            #Recrutement sur chaque case où il est possible de recruter jusqu'à ce que le nombre de troupes atteigne son maximum
             #ou qu'un recrutement ait été effectué sur toutes les cases où c'était possible
             if self._infos[self._infos.tour][('nombreTroupes', self._joueur)] + len(casesJoueur) > self._infos[0]["nombreDeTroupesMax"]:
                 random.shuffle(casesJoueur)
@@ -1579,13 +1579,13 @@ class IA:
                 self._infos.recrutement()
         else:
             self._infos.passerTour()
-    
+
     def compatibiliteCaseArrivee(self, caseDepart:tuple):
         """
-        Renvoie la liste des cases d'arrivée possibles à partir d'une case de 
-        départ donnée. Chaque case d'arrivée possible se présente sous la 
-        forme d'un tuple comportant les coordonnées de la case, le nombre 
-        minimum de troupes à envoyer pour ne pas perdre et le nombre maximum 
+        Renvoie la liste des cases d'arrivée possibles à partir d'une case de
+        départ donnée. Chaque case d'arrivée possible se présente sous la
+        forme d'un tuple comportant les coordonnées de la case, le nombre
+        minimum de troupes à envoyer pour ne pas perdre et le nombre maximum
         de troupes à envoyer possible.
 
         Parameters
@@ -1603,7 +1603,7 @@ class IA:
         casesVisitees = []
         file = [caseDepart]
         while file != []:
-            #Si la case testée appartient au joueur remplacé par l'IA, chacune de ses cases adjacentes sont sélectionnées pour être testées 
+            #Si la case testée appartient au joueur remplacé par l'IA, chacune de ses cases adjacentes sont sélectionnées pour être testées
             #et, si ce n'est pas la case de départ, elle est est notée comme compatible avec comme nombre minimum de troupes à envoyer 1 et comme maximum le nombre de places qu'il y reste
             if self._infos[self._infos.tour][file[0]]["Proprietaire"] == self._joueur:
                 for caseAdjacente in self._infos[self._infos.tour][file[0]]["CasesAdjacentes"]:
@@ -1614,27 +1614,27 @@ class IA:
             #Si la case testée est neutre et si le déplacement y est possible, elle est est notée comme compatible avec comme nombre minimum de troupes à envoyer 1 et comme maximum 7
             elif self._infos[self._infos.tour][file[0]]["Proprietaire"] == "Neutre" and file[0] in self._infos[self._infos.tour][caseDepart]["CasesAdjacentes"] or self._infos[0]["casesNeutresNonAdjacentes"]:
                 casesCompatibles.append((file[0], 1, 7))
-            #Si la case testée appartient au joueur adverse et si le déplacement y est possible, elle est est notée comme compatible avec 
+            #Si la case testée appartient au joueur adverse et si le déplacement y est possible, elle est est notée comme compatible avec
             #comme nombre minimum de troupes à envoyer le nombre de troupes nécessaire pour faire nul lors de la bataille pour la case, tant que ce nombre ne dépasse pas 7, et comme maximum 7
             elif file[0] in self._infos[self._infos.tour][caseDepart]["CasesAdjacentes"] or self._infos[0]["casesAdversesNonAdjacentes"]:
                 casesCompatibles.append((file[0], min(self._infos[self._infos.tour][file[0]]["Troupes"] + 1 if self._infos[self._infos.tour][file[0]]["Representant"] else self._infos[self._infos.tour][file[0]]["Troupes"], 7), 7))
             casesVisitees.append(file.pop(0))
         return casesCompatibles
-                
+
     def choixAction(self, tourMinChoisi:int=10):
         """
-        Exécute une action jugée compatible avec la situation jusqu'à ce 
-        qu'aucune erreur ne soit renvoyée. Si le numéro du tour actuel est 
+        Exécute une action jugée compatible avec la situation jusqu'à ce
+        qu'aucune erreur ne soit renvoyée. Si le numéro du tour actuel est
         inférieur au tour minimum choisi ou si aucune action n'est compatible,
         un coup alétoire est joué.
 
         Parameters
         ----------
         tourMinChoisi : int, optional
-            Tour à partir duquel un coup non-aléatoire peut-être joué. Une 
+            Tour à partir duquel un coup non-aléatoire peut-être joué. Une
             limite est fixée pour éviter d'avoir éternellement les mêmes coups
             durant les premiers tours, où la situation est toujours la même et
-            donc où les mêmes actions compatibles seront toujours 
+            donc où les mêmes actions compatibles seront toujours
             sélectionnées.
             The default is 5.
 
@@ -1669,15 +1669,15 @@ class IA:
                 del actionsCompatibles[0]
         if erreur != None:
             self.actionAleatoire()
-            
+
 class IAAnalysee(IA):
     """
-    Classe 
+    Classe
     """
     def triTour(self, compatibiliteMin:int=0.6):
         """
-        Sélectionne les tours ressemblant suffisamment au tour actuel, leur 
-        attribue un score et renvoie une liste des actions qui y ont été 
+        Sélectionne les tours ressemblant suffisamment au tour actuel, leur
+        attribue un score et renvoie une liste des actions qui y ont été
         jouées, triée en fonction de leurs scores.
 
         Parameters
@@ -1690,9 +1690,9 @@ class IAAnalysee(IA):
         Returns
         -------
         actionsCompatibles : list
-            Liste de tuples contenant le score de compatibilité d'un tour,  
-            l'action qui y a été jouée et le fichier d'origine de l'action. 
-            Elle est triée en fonction du score dans l'ordre décroissant. 
+            Liste de tuples contenant le score de compatibilité d'un tour,
+            l'action qui y a été jouée et le fichier d'origine de l'action.
+            Elle est triée en fonction du score dans l'ordre décroissant.
             Elle prend la forme [score, action, fichier d'origine, tour d'origine]
 
         """
@@ -1742,21 +1742,21 @@ class IAAnalysee(IA):
                         actionsCompatibles.append((float(partie[i][0])*fichier[1]*scoreCompatibilite, partie[i][1], fichier[0], tourTeste))
         actionsCompatibles.sort(reverse=True)
         return actionsCompatibles
-    
+
     def choixAction(self, tourMinChoisi:int=10):
         """
-        Exécute une action jugée compatible avec la situation jusqu'à ce 
-        qu'aucune erreur ne soit renvoyée. Si le numéro du tour actuel est 
+        Exécute une action jugée compatible avec la situation jusqu'à ce
+        qu'aucune erreur ne soit renvoyée. Si le numéro du tour actuel est
         inférieur au tour minimum choisi ou si aucune action n'est compatible,
         un coup alétoire est joué.
 
         Parameters
         ----------
         tourMinChoisi : int, optional
-            Tour à partir duquel un coup non-aléatoire peut-être joué. Une 
+            Tour à partir duquel un coup non-aléatoire peut-être joué. Une
             limite est fixée pour éviter d'avoir éternellement les mêmes coups
             durant les premiers tours, où la situation est toujours la même et
-            donc où les mêmes actions compatibles seront toujours 
+            donc où les mêmes actions compatibles seront toujours
             sélectionnées.
             The default is 5.
 
@@ -1797,44 +1797,44 @@ class IAAnalysee(IA):
 
 class EntraineurIA:
     """
-    Fonction destinée à l'entraînement et au test de l'IA. Pour cela, un 
-    nombre prédéterminé de parties où les deux joueurs sont remplacés par une 
-    IA sont lancées et sauvegardées. En plus du fichier de sauvegarde classique 
-    récapitulant l'état du plateau et l'action jouée à chaque tour, un autre 
-    fichier retraçant la provenance de chaque action jouée est créée afin de 
+    Fonction destinée à l'entraînement et au test de l'IA. Pour cela, un
+    nombre prédéterminé de parties où les deux joueurs sont remplacés par une
+    IA sont lancées et sauvegardées. En plus du fichier de sauvegarde classique
+    récapitulant l'état du plateau et l'action jouée à chaque tour, un autre
+    fichier retraçant la provenance de chaque action jouée est créée afin de
     pouvoir évaluer l'évolution de l'IA.
     """
     def __init__(self, nombreParties:int=1, nombreDeTroupesMax:int=49, casesNeutresNonAdjacentes:bool=True, casesAdversesNonAdjacentes:bool=False, caseDepartJ1:tuple=(13, 1), caseDepartJ2:tuple=(1, 1)):
         """
-        Constructeur lançant un nombre prédéterminé de parties avec les 
+        Constructeur lançant un nombre prédéterminé de parties avec les
         options prévues.
-    
+
         Parameters
         ----------
         nombreParties : int, optional
             Nombre de parties à lancer à la suite. The default is 1.
         nombreDeTroupesMax : int, optional
-            Nombre de troupes maximales par joueur hors influence. 
+            Nombre de troupes maximales par joueur hors influence.
             The default is 49.
         casesNeutresNonAdjacentes : bool, optional
             Permission pour les joueurs de déplacer leurs troupes sur une case
-            neutre adjacente à l'une de leur case sans qu'elle ne doive être 
-            adjacente à la case de départ des troupes. 
+            neutre adjacente à l'une de leur case sans qu'elle ne doive être
+            adjacente à la case de départ des troupes.
             The default is True.
         casesAdversesNonAdjacentes : bool, optional
             Permission pour les joueurs de déplacer leurs troupes sur une case
-            adverse adjacente à l'une de leur case sans qu'elle ne doive être 
-            adjacente à la case de départ des troupes. 
+            adverse adjacente à l'une de leur case sans qu'elle ne doive être
+            adjacente à la case de départ des troupes.
             The default is False.
         caseDepartJ1 : tuple, optional
             Case de départ du joueur 1. The default is (13, 1).
         caseDepartJ2 : tuple, optional
             Case de départ du joueur 2. The default is (1, 1).
-    
+
         Returns
         -------
         None.
-    
+
         """
         for i in range (0, nombreParties):
             self._joueur = "Joueur 1"
@@ -1845,14 +1845,15 @@ class EntraineurIA:
             self._IAJoueur1.choixAction()
             try :
                 self.finDuTour()
+                print("Partie", i, "terminée")
             except RecursionError:
-                pass
-        
+                print("Echec de la partie", i)
+
     def finDuTour(self):
         """
-        Gère la mise à jour des infos de jeu à la fin d'un tour, ce qui 
-        comprend l'influence, le compte des troupes et évidemment le passage 
-        au tour suivant, met à jour les indications visuelles en fonction des 
+        Gère la mise à jour des infos de jeu à la fin d'un tour, ce qui
+        comprend l'influence, le compte des troupes et évidemment le passage
+        au tour suivant, met à jour les indications visuelles en fonction des
         infos de jeu, vérifie que les conditions de fin de partie ne sont pas
         remplies et gère le lancement du tour de l'IA.
 
@@ -1918,7 +1919,7 @@ class EntraineurIA:
             elif self._joueur == "Joueur 2":
                 self._IAJoueur2.choixAction()
                 self.finDuTour()
-        
+
     def sauvegarderAnalyse(self, choixSauvegarde):
         #Conversion des données de jeu au format akan
         sauvegarde = "/".join([cle + ";" + str(self.infos[0][cle]) for cle in self.infos[0].keys()]) + "\n" + str(len(self.infos)-1)
@@ -1938,11 +1939,11 @@ class EntraineurIA:
         #Ecriture des données converties dans le fichier choisi
         with open(choixSauvegarde, "w") as fichierSauvegarde:
             fichierSauvegarde.write(sauvegarde)
-            
 
-        
-            
-# ------------------------------Programme principal--------------------------- 
+
+
+
+# ------------------------------Programme principal---------------------------
 if __name__ == "__main__":
     #FenetreGlobale()
     EntraineurIA(1)
