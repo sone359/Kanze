@@ -1570,12 +1570,13 @@ class IA:
             if self._infos[self._infos.tour][('nombreTroupes', self._joueur)] + len(casesJoueur) > self._infos[0]["nombreDeTroupesMax"]:
                 random.shuffle(casesJoueur)
                 self._infos[self._infos.tour]["action"] = ["recruterCase"]
+                i = 0
+                while i in range (0, self._infos[0]["nombreDeTroupesMax"]-self._infos[self._infos.tour][('nombreTroupes', self._joueur)]) and i < len(casesJoueur):
+                    self._infos.recrutementALaCase(self._joueur, casesJoueur[i])
+                    i += 1
             else:
                 self._infos[self._infos.tour]["action"] = ["recruter"]
-            i = 0
-            while i in range (0, self._infos[0]["nombreDeTroupesMax"]-self._infos[self._infos.tour][('nombreTroupes', self._joueur)]) and i < len(casesJoueur):
-                self._infos.recrutementALaCase(self._joueur, casesJoueur[i])
-                i += 1
+                self._infos.recrutement()
         else:
             self._infos.passerTour()
     
@@ -1943,5 +1944,5 @@ class EntraineurIA:
             
 # ------------------------------Programme principal--------------------------- 
 if __name__ == "__main__":
-    FenetreGlobale()
-    #EntraineurIA(5)
+    #FenetreGlobale()
+    EntraineurIA(1)
