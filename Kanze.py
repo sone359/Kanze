@@ -1945,5 +1945,5 @@ class EntraineurIA:
 
 # ------------------------------Programme principal---------------------------
 if __name__ == "__main__":
-    #FenetreGlobale()
-    EntraineurIA(3)
+    FenetreGlobale()
+    #EntraineurIA(3)
